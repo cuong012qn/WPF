@@ -1,0 +1,15 @@
+F:\WPF\DockPanel\DockPanel\bin\Debug\DockPanel.exe.config
+F:\WPF\DockPanel\DockPanel\bin\Debug\DockPanel.exe
+F:\WPF\DockPanel\DockPanel\bin\Debug\DockPanel.pdb
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.csprojAssemblyReference.cache
+F:\WPF\DockPanel\DockPanel\obj\Debug\MainWindow.g.cs
+F:\WPF\DockPanel\DockPanel\obj\Debug\App.g.cs
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel_MarkupCompile.cache
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel_MarkupCompile.lref
+F:\WPF\DockPanel\DockPanel\obj\Debug\MainWindow.baml
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.g.resources
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.Properties.Resources.resources
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.csproj.GenerateResource.cache
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.csproj.CoreCompileInputs.cache
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.exe
+F:\WPF\DockPanel\DockPanel\obj\Debug\DockPanel.pdb

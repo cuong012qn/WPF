@@ -1,0 +1,15 @@
+F:\WPF\ListView_WPF\ListView_WPF\bin\Debug\ListView_WPF.exe.config
+F:\WPF\ListView_WPF\ListView_WPF\bin\Debug\ListView_WPF.exe
+F:\WPF\ListView_WPF\ListView_WPF\bin\Debug\ListView_WPF.pdb
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.csprojAssemblyReference.cache
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\MainWindow.g.cs
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\App.g.cs
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF_MarkupCompile.cache
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF_MarkupCompile.lref
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\MainWindow.baml
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.g.resources
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.Properties.Resources.resources
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.csproj.GenerateResource.cache
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.csproj.CoreCompileInputs.cache
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.exe
+F:\WPF\ListView_WPF\ListView_WPF\obj\Debug\ListView_WPF.pdb
