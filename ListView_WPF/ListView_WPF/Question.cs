@@ -16,7 +16,17 @@ namespace ListView_WPF
         public string answerC { get; set; }
         public string answerD { get; set; }
         public Result result { get; set; }
-        
         public bool isChecked { get; set; }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
+
+        public string Exportquestions()
+        {
+            return question + "\nA. " + answerA + "\nB. " + answerB + "\nC. " + answerC + "\nD. " + answerD + "\nKey "
+    + result + "\n";
+        }
     }
 }

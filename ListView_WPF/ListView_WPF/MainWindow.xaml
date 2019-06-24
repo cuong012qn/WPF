@@ -5,19 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ListView_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000"
+        Title="Soạn câu hỏi" Height="600" Width="1000"
         WindowStartupLocation="CenterScreen">
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Top">
+        <StackPanel DockPanel.Dock="Top"    >
             <TextBlock Text="Tìm câu hỏi:" FontSize="20" Margin="5" Foreground="DarkBlue"></TextBlock>
             <TextBox x:Name="txbFilter" DockPanel.Dock="Top" FontSize="17" Margin="5" TextChanged="BtnFilter_TextChanged"></TextBox>
         </StackPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnExportQuestion" Content="Export question" Margin="5" FontSize="20"
-                   Height="70" Width="180" Click="BtnExportQuestion_Click"></Button>
-            <Button x:Name="btnSort" Content="Group by result" HorizontalAlignment="Right"
+            <StackPanel Margin="5" Width="200">
+                <TextBlock Text="Tùy chọn xuất" FontSize="20" Margin="5" ></TextBlock>
+                <ComboBox FontSize="20" Margin="5" Width="auto">
+                    <ComboBoxItem Content="Câu hỏi (không đáp án)"></ComboBoxItem>
+                    <ComboBoxItem Content="Câu hỏi + đáp án"></ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <Button x:Name="btnExportQuestion" Content="Xuất câu hỏi" Margin="5" FontSize="20"
+                   Height="auto" Width="180" Click="BtnExportQuestion_Click"></Button>
+            <!--<Button x:Name="btnSort" Content="Group by result" HorizontalAlignment="Right"
              Margin="5"  FontSize="20" Height="70" Width="180"
-                Click="BtnSort_Click"></Button>
+                Click="BtnSort_Click"></Button>-->
         </StackPanel>
         <ListView x:Name="lvViewQuestions" FontSize="17"
                   Margin="5" DockPanel.Dock="Top"
@@ -30,7 +37,12 @@
             </ListView.ItemContainerStyle>-->
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding question}">
+                    <GridViewColumn Width="auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding question}" TextWrapping="Wrap"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
                         <GridViewColumnHeader x:Name="question" Content="Câu hỏi" Click="GridViewColumnHeader_Click"></GridViewColumnHeader>
                     </GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding answerA}">
@@ -71,7 +83,7 @@
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Câu " FontSize="17"></TextBlock>
+                                <TextBlock Text="Đáp án " FontSize="17"></TextBlock>
                                 <TextBlock FontSize="17" Text="{Binding Name}" Foreground="Black"></TextBlock>
                             </StackPanel>
                         </DataTemplate>

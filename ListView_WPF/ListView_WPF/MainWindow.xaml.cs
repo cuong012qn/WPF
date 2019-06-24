@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using word = Microsoft.Office.Interop.Word;
 
 namespace ListView_WPF
 {
@@ -88,18 +83,28 @@ namespace ListView_WPF
 
         private void BtnExportQuestion_Click(object sender, RoutedEventArgs e)
         {
-            List<Question> items = lvViewQuestions.ItemsSource as List<Question>;
-            var results = from item in items
-                          where item.isChecked == true
-                          select item.question;
-            string temp = string.Empty;
-            int k = 0;
-            foreach (var result in results)
-            {
-                k++;
-                temp += (result.ToString() + "\n");
+            List<Question> items = (lvViewQuestions.ItemsSource as List<Question>).Where(item => item.isChecked == true).ToList();
+            if (items == null) return;
+
+            var dialogResult = MessageBox.Show("Bạn có chắc muốn xuất " + items.Count.ToString() + " câu hỏi"
+                , "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (dialogResult == MessageBoxResult.Yes)
+                exportQuestionToFile(items);
+            else return;
+                //select item.question;
+
             }
-            MessageBox.Show(temp + "\n" + Convert.ToString(k));
+
+        private void exportQuestionToFile(List<Question> questions)
+        {
+            string dirPath = Directory.GetCurrentDirectory() + @"\question.txt";
+            if (File.Exists(dirPath)) File.Delete(dirPath);
+            for (int i = 0; i < questions.Count; i++)
+            {
+                File.AppendAllText(dirPath, "Câu " + Convert.ToString(i + 1) + ": "
+                                    + questions[i].Exportquestions());
+            }
+            Process.Start(dirPath);
         }
 
         private void CbChoose_Checked(object sender, RoutedEventArgs e)
