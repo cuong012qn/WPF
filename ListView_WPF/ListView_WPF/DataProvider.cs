@@ -65,6 +65,7 @@ namespace ListView_WPF
                 if (result == "B") question.result = Question.Result.B;
                 if (result == "C") question.result = Question.Result.C;
                 if (result == "D") question.result = Question.Result.D;
+                question.isChecked = false;
                 lstQuestions.Add(question);
             }
             return lstQuestions;

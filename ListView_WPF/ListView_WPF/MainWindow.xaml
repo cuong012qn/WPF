@@ -12,9 +12,13 @@
             <TextBlock Text="Tìm câu hỏi:" FontSize="20" Margin="5" Foreground="DarkBlue"></TextBlock>
             <TextBox x:Name="txbFilter" DockPanel.Dock="Top" FontSize="17" Margin="5" TextChanged="BtnFilter_TextChanged"></TextBox>
         </StackPanel>
-        <Button x:Name="btnSort" Content="Group by result" HorizontalAlignment="Right"
-             Margin="5" DockPanel.Dock="Bottom" FontSize="20" Height="70" Width="180"
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnExportQuestion" Content="Export question" Margin="5" FontSize="20"
+                   Height="70" Width="180" Click="BtnExportQuestion_Click"></Button>
+            <Button x:Name="btnSort" Content="Group by result" HorizontalAlignment="Right"
+             Margin="5"  FontSize="20" Height="70" Width="180"
                 Click="BtnSort_Click"></Button>
+        </StackPanel>
         <ListView x:Name="lvViewQuestions" FontSize="17"
                   Margin="5" DockPanel.Dock="Top"
                   ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -55,7 +59,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid Width="50">
-                                    <CheckBox HorizontalAlignment="Center" ></CheckBox>
+                                    <CheckBox x:Name="cbChoose" IsChecked="{Binding isChecked}" HorizontalAlignment="Center" Checked="CbChoose_Checked"></CheckBox>
                                 </Grid>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

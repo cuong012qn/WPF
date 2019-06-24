@@ -85,5 +85,26 @@ namespace ListView_WPF
         {
             CollectionViewSource.GetDefaultView(lvViewQuestions.ItemsSource).Refresh();
         }
+
+        private void BtnExportQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            List<Question> items = lvViewQuestions.ItemsSource as List<Question>;
+            var results = from item in items
+                          where item.isChecked == true
+                          select item.question;
+            string temp = string.Empty;
+            int k = 0;
+            foreach (var result in results)
+            {
+                k++;
+                temp += (result.ToString() + "\n");
+            }
+            MessageBox.Show(temp + "\n" + Convert.ToString(k));
+        }
+
+        private void CbChoose_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
