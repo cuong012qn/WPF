@@ -1,0 +1,15 @@
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\ToolAndroid.exe.config
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\ToolAndroid.exe
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\ToolAndroid.pdb
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.csprojAssemblyReference.cache
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\MainWindow.g.cs
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\App.g.cs
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid_MarkupCompile.cache
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid_MarkupCompile.lref
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\MainWindow.baml
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.g.resources
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.Properties.Resources.resources
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.csproj.GenerateResource.cache
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.csproj.CoreCompileInputs.cache
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.exe
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.pdb

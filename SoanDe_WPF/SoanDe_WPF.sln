@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoanDe_WPF", "SoanDe_WPF\SoanDe_WPF.csproj", "{FE5D2452-F8C6-4158-BEF3-0A2D79B0576B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE5D2452-F8C6-4158-BEF3-0A2D79B0576B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5D2452-F8C6-4158-BEF3-0A2D79B0576B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5D2452-F8C6-4158-BEF3-0A2D79B0576B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5D2452-F8C6-4158-BEF3-0A2D79B0576B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F552A86-C7D8-467C-A22F-43D73CA87C48}
+	EndGlobalSection
+EndGlobal
