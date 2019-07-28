@@ -2,18 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading.Tasks;
+using Path = System.IO.Path;
 
 namespace ToolAndroid
 {
@@ -25,75 +23,114 @@ namespace ToolAndroid
         public MainWindow()
         {
             InitializeComponent();
+            
+            Core.CleanPicture();
+            Core.FindImage();
+            //cvPicture.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png"),UriKind.Relative)));
+            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Capture")))
+                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Capture"));
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png")))
+            {
+                File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png"));
+            }
+            tbPathNox.Text = Core.ReadpathFromFile();
+            lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text.Replace("Nox.exe", ""));
         }
 
         private void BtnOpenNox_Click(object sender, RoutedEventArgs e)
         {
+            string currentPath = Directory.GetCurrentDirectory() + @"\path.txt";
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.ShowDialog();
-            tbPathNox.Text = openFileDialog.FileName;
-        }
-
-        List<string> GetLstDevices(string pathNox)
-        {
-            string command = @"devices";
-            List<string> lstDevices = new List<string>();
-            if (!string.IsNullOrEmpty(pathNox))
+            if (openFileDialog.FileName.Contains("Nox.exe"))
             {
-                string temp = ExecuteCommand(pathNox + "nox_adb.exe", command);
-                lstDevices = temp.Replace("List of devices attached", "").Trim().Split('\n').ToList();
-                return lstDevices;
+                if (Core.WritepathToFile(openFileDialog.FileName))
+                    tbPathNox.Text = openFileDialog.FileName;
+                else MessageBox.Show("Kiểm tra lại đường dẫn Nox", "Thông báo");
             }
-            else return lstDevices;
-        }
-
-        string ExecuteCommand(string filename,string command)
-        {
-            string result = string.Empty;
-            using (Process process = new Process())
+            else tbPathNox.Text = "";
+            if (!string.IsNullOrEmpty(tbPathNox.Text))
             {
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.FileName = filename;
-                process.StartInfo.Arguments = command;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.Start();
-                result = process.StandardOutput.ReadToEnd();
-                process.WaitForExit();
+                lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text);
             }
-            return result;
         }
 
         private void BtnRun_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        public class LstDevices
-        {
-            public string device { get; set; }
-            public string ip { get; set; }
         }
 
         private void TbPathNox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (tbPathNox.Text.Contains("Nox.exe"))
+        }
+
+        private void CbSelect_Checked(object sender, RoutedEventArgs e)
+        {
+            var temp = (((CheckBox)sender).DataContext as Devices);
+            if (!temp.isChecked) temp.isChecked = true;
+        }
+
+        private void CbSelect_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var temp = (((CheckBox)sender).DataContext as Devices);
+            if (temp.isChecked) temp.isChecked = false;
+        }
+
+        private bool isLoaded = false;
+        static int count = 0;
+        private void BtnCaptureScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (cvPicture.Background != null)
+                cvPicture.Background = null;
+            if (cvPicture.Background == null)
             {
-                List<LstDevices> dv = new List<LstDevices>();
-                if (string.IsNullOrEmpty(tbPathNox.Text)) return;
-                else
+                if (tbPathNox.Text.Contains("Nox.exe"))
                 {
-                    foreach (string devices in GetLstDevices(tbPathNox.Text.Replace("Nox.exe", "")))
+                    Devices devices = ((Button)sender).DataContext as Devices;
+                    if (devices.isChecked)
                     {
-                        string[] temp = devices.Split('\r', '\t');
-                        LstDevices lstDevices = new LstDevices();
-                        lstDevices.ip = temp[0];
-                        lstDevices.device = temp[1];
-                        dv.Add(lstDevices);
+                        Core.ScreenCap(tbPathNox.Text.Replace("Nox.exe", ""), devices, String.Format("image_{0}", count));
+                        isLoaded = true;
                     }
                 }
-                lvInfomation.ItemsSource = dv;
+                if (isLoaded)
+                    LoadtoCanvas(cvPicture);
+                count++;
             }
         }
+
+        void LoadtoCanvas(Canvas image)
+        {
+            if (image.Background == null)
+            {
+                ImageBrush imageBrush = new ImageBrush();
+                BitmapImage bmImage = new BitmapImage();
+                bmImage.BeginInit();
+                bmImage.CacheOption = BitmapCacheOption.OnDemand;
+                bmImage.UriSource = new Uri(Path.Combine(Directory.GetCurrentDirectory(), "Capture", String.Format("image_{0}.png", count)), UriKind.Relative);
+                bmImage.EndInit();
+                cvPicture.Height = bmImage.Height;
+                cvPicture.Width = bmImage.Width;
+                imageBrush.ImageSource = bmImage;
+                image.Background = imageBrush;
+            }
+            else return;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            //MessageBox.Show(Core.CleanPicture().ToString());
+            //ExecuteCommand(tbPathNox.Text.Replace("Nox.exe", ""), "disconnect all");
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            cvPicture.Background = null;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Core.CleanPicture();
+        }
+
     }
 }
