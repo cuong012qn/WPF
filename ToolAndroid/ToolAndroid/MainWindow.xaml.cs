@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.Threading.Tasks;
 using Path = System.IO.Path;
 
+
 namespace ToolAndroid
 {
     /// <summary>
@@ -20,21 +21,20 @@ namespace ToolAndroid
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Point current;
+        bool isDrawing;
+
+
         public MainWindow()
         {
             InitializeComponent();
-            
             Core.CleanPicture();
-            Core.FindImage();
+            //Core.FindImage();
             //cvPicture.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png"),UriKind.Relative)));
-            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Capture")))
-                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Capture"));
-            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png")))
-            {
-                File.Delete(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png"));
-            }
             tbPathNox.Text = Core.ReadpathFromFile();
             lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text.Replace("Nox.exe", ""));
+
         }
 
         private void BtnOpenNox_Click(object sender, RoutedEventArgs e)
@@ -51,7 +51,7 @@ namespace ToolAndroid
             else tbPathNox.Text = "";
             if (!string.IsNullOrEmpty(tbPathNox.Text))
             {
-                lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text);
+                lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text.Replace("Nox.exe", ""));
             }
         }
 
@@ -79,8 +79,6 @@ namespace ToolAndroid
         static int count = 0;
         private void BtnCaptureScreen_Click(object sender, RoutedEventArgs e)
         {
-            if (cvPicture.Background != null)
-                cvPicture.Background = null;
             if (cvPicture.Background == null)
             {
                 if (tbPathNox.Text.Contains("Nox.exe"))
@@ -118,6 +116,13 @@ namespace ToolAndroid
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            Rectangle rectangle = new Rectangle();
+            rectangle.Width = 100;
+            rectangle.Height = 100;
+            rectangle.Stroke = Brushes.Black;
+            rectangle.StrokeThickness = 2;
+            cvPicture.Children.Add(rectangle);
+            MessageBox.Show(cvPicture.Children.Count.ToString());
             //MessageBox.Show(Core.CleanPicture().ToString());
             //ExecuteCommand(tbPathNox.Text.Replace("Nox.exe", ""), "disconnect all");
         }
@@ -132,5 +137,30 @@ namespace ToolAndroid
             //Core.CleanPicture();
         }
 
+
+        private void CvPicture_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+
+            isDrawing = true;
+        }
+
+        private void CvPicture_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void CvPicture_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (isDrawing)
+            {
+
+            }
+        }
+
+        private void CvPicture_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace ToolAndroid
             Image<Bgr, byte> template = new Image<Bgr, byte>(@"C:\Users\cuong\Desktop\ImageSearch\image_1.png");
             Image<Bgr, byte> imageToShow = source.Copy();
             //Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED
-            using (Image<Gray, float> result = source.MatchTemplate(template,TemplateMatchingType.CcoeffNormed))
+            using (Image<Gray, float> result = source.MatchTemplate(template, TemplateMatchingType.CcoeffNormed))
             {
                 double[] minValues, maxValues;
                 Point[] minLocations, maxLocations;
@@ -91,11 +91,14 @@ namespace ToolAndroid
                 foreach (string device in splitDevice)
                 {
                     string[] dv = device.Split('\r', '\t');
-                    Devices devices1 = new Devices();
-                    devices1.device = dv[1];
-                    devices1.ip = dv[0];
-                    devices1.isChecked = false;
-                    devices.Add(devices1);
+                    if (dv != null)
+                    {
+                        Devices devices1 = new Devices();
+                        devices1.device = dv[1];
+                        devices1.ip = dv[0];
+                        devices1.isChecked = false;
+                        devices.Add(devices1);
+                    }
                 }
             }
             return devices;
@@ -103,7 +106,7 @@ namespace ToolAndroid
 
         public static bool CleanPicture()
         {
-            List<string> lstPicture = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "Capture"), "*.png",SearchOption.AllDirectories).ToList();
+            List<string> lstPicture = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "Capture"), "*.png", SearchOption.AllDirectories).ToList();
             try
             {
                 foreach (string picture in lstPicture)

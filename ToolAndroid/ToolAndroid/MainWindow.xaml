@@ -27,8 +27,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0">
-
+                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseDown="CvPicture_MouseDown" MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove" MouseEnter="CvPicture_MouseEnter" >
                 </Canvas>
                 <ListView Margin="5" x:Name="lvInfomation" Grid.Column="1">
                     <ListView.View>
