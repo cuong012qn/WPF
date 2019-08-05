@@ -1,18 +1,14 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows;
+using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Threading.Tasks;
 using Path = System.IO.Path;
-
+using System.Threading;
 
 namespace ToolAndroid
 {
@@ -22,9 +18,8 @@ namespace ToolAndroid
     public partial class MainWindow : Window
     {
 
-        Point current;
-        bool isDrawing;
-
+        static bool isDrawing;
+        Point startPoint, endPoint;
 
         public MainWindow()
         {
@@ -34,7 +29,6 @@ namespace ToolAndroid
             //cvPicture.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png"),UriKind.Relative)));
             tbPathNox.Text = Core.ReadpathFromFile();
             lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text.Replace("Nox.exe", ""));
-
         }
 
         private void BtnOpenNox_Click(object sender, RoutedEventArgs e)
@@ -79,19 +73,21 @@ namespace ToolAndroid
         static int count = 0;
         private void BtnCaptureScreen_Click(object sender, RoutedEventArgs e)
         {
-            if (cvPicture.Background == null)
+            cvPicture.Background = null;
+            cvPicture.Children.Clear();
+            isLoaded = false;
+            if (tbPathNox.Text.Contains("Nox.exe"))
             {
-                if (tbPathNox.Text.Contains("Nox.exe"))
+                Devices devices = ((Button)sender).DataContext as Devices;
+                if (devices.isChecked)
                 {
-                    Devices devices = ((Button)sender).DataContext as Devices;
-                    if (devices.isChecked)
-                    {
-                        Core.ScreenCap(tbPathNox.Text.Replace("Nox.exe", ""), devices, String.Format("image_{0}", count));
-                        isLoaded = true;
-                    }
+                    Core.ScreenCap(tbPathNox.Text.Replace("Nox.exe", ""), devices, String.Format("image_{0}", count));
+                    isLoaded = true;
                 }
-                if (isLoaded)
-                    LoadtoCanvas(cvPicture);
+            }
+            if (isLoaded)
+            {
+                LoadtoCanvas(cvPicture);
                 count++;
             }
         }
@@ -116,15 +112,7 @@ namespace ToolAndroid
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Rectangle rectangle = new Rectangle();
-            rectangle.Width = 100;
-            rectangle.Height = 100;
-            rectangle.Stroke = Brushes.Black;
-            rectangle.StrokeThickness = 2;
-            cvPicture.Children.Add(rectangle);
-            MessageBox.Show(cvPicture.Children.Count.ToString());
-            //MessageBox.Show(Core.CleanPicture().ToString());
-            //ExecuteCommand(tbPathNox.Text.Replace("Nox.exe", ""), "disconnect all");
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -134,33 +122,55 @@ namespace ToolAndroid
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Core.CleanPicture();
-        }
 
+        }
 
         private void CvPicture_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (!isDrawing)
+            {
+                startPoint = e.GetPosition(cvPicture);
+                isDrawing = true;
+            }
+            else return;
+        }
 
-
-            isDrawing = true;
+        private void DrawingRectangle(Point startPoint, Point endPoint, Canvas canvasPicture)
+        {
+            Rectangle rectangle = new Rectangle();
+            rectangle.Stroke = Brushes.Red;
+            rectangle.StrokeThickness = 4;
+            if ((endPoint.X < endPoint.Y) || (endPoint.Y < startPoint.Y))
+            {
+                isDrawing = false;
+                return;
+            }
+            else
+            {
+                rectangle.Width = Math.Abs(endPoint.X - startPoint.X);
+                rectangle.Height = Math.Abs(endPoint.Y - startPoint.Y);
+                Canvas.SetLeft(rectangle, startPoint.X);
+                Canvas.SetTop(rectangle, startPoint.Y);
+                canvasPicture.Children.Add(rectangle);
+            }
         }
 
         private void CvPicture_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-
+            if (isDrawing) isDrawing = false;
+            else return;
         }
 
         private void CvPicture_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (isDrawing)
             {
-
+                
+                endPoint = e.GetPosition(cvPicture);
+                if (cvPicture.Children.Count > 1) cvPicture.Children.Clear();
+                DrawingRectangle(startPoint, endPoint,cvPicture);
             }
-        }
-
-        private void CvPicture_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-
+            else return;
         }
     }
 }

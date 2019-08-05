@@ -7,9 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized">
+        WindowState="Maximized"
+        >
+    <Window.CommandBindings>
+        
+    </Window.CommandBindings>
     <DockPanel>
-        <Button Content="Run" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Click="Button_Click" Height="50" Width="50" Margin="5"></Button>
         <DockPanel Margin="5" DockPanel.Dock="Top">
             <Border BorderThickness="0.5" BorderBrush="Black">
                 <StackPanel Margin="5">
@@ -21,13 +24,22 @@
                 </StackPanel>
             </Border>
         </DockPanel>
+        <Border DockPanel.Dock="Top" Margin="5" BorderThickness="0.5" BorderBrush="Black">
+            <DockPanel Margin="5">
+                <TextBlock Text="Thanh công cụ" FontSize="20" Margin="5"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Chọn vùng" Width="100" Margin="5" FontSize="20" ></Button>
+                    <Button Content="Cắt" Width="100" Margin="5" FontSize="20" ></Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
         <Border BorderBrush="Black" BorderThickness="0.5" Margin="5">
             <Grid x:Name="gr">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseDown="CvPicture_MouseDown" MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove" MouseEnter="CvPicture_MouseEnter" >
+                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove" >
                 </Canvas>
                 <ListView Margin="5" x:Name="lvInfomation" Grid.Column="1">
                     <ListView.View>

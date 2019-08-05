@@ -93,11 +93,18 @@ namespace ToolAndroid
                     string[] dv = device.Split('\r', '\t');
                     if (dv != null)
                     {
-                        Devices devices1 = new Devices();
-                        devices1.device = dv[1];
-                        devices1.ip = dv[0];
-                        devices1.isChecked = false;
-                        devices.Add(devices1);
+                        try
+                        {
+                            Devices devices1 = new Devices();
+                            devices1.device = dv[1];
+                            devices1.ip = dv[0];
+                            devices1.isChecked = false;
+                            devices.Add(devices1);
+                        }
+                        catch
+                        {
+                            return null;
+                        }
                     }
                 }
             }
@@ -130,7 +137,7 @@ namespace ToolAndroid
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.RedirectStandardOutput = true;
                 process.StartInfo.Arguments = command;
-                process.StartInfo.CreateNoWindow = false;
+                process.StartInfo.CreateNoWindow = true;
                 try
                 {
                     process.Start();
