@@ -29,7 +29,7 @@
                 <TextBlock Text="Thanh công cụ" FontSize="20" Margin="5"></TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Button Content="Chọn vùng" Width="100" Margin="5" FontSize="20" ></Button>
-                    <Button Content="Cắt" Width="100" Margin="5" FontSize="20" ></Button>
+                    <Button  x:Name="btnCut" Content="Cắt" Width="100" Margin="5" FontSize="20" Click="BtnCut_Click" ></Button>
                 </StackPanel>
             </DockPanel>
         </Border>
@@ -39,7 +39,15 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove" >
+                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove">
+                    <Canvas.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="_Cut">
+                            </MenuItem>
+                            <MenuItem Header="_Copy">
+                            </MenuItem>
+                        </ContextMenu>
+                    </Canvas.ContextMenu>
                 </Canvas>
                 <ListView Margin="5" x:Name="lvInfomation" Grid.Column="1">
                     <ListView.View>

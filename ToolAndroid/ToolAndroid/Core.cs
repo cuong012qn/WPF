@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,13 +9,28 @@ using System.Windows.Controls;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.CV.CvEnum;
+using System.Media;
+using System.Windows.Shapes;
+using System.Windows;
 
 namespace ToolAndroid
 {
     class Core
     {
+
+        private Point StartPoint, EndPoint;
+        public Core()
+        {
+
+        }
+
+        public Core(Point StartPoint, Point EndPoint)
+        {
+            this.StartPoint = StartPoint;
+            this.EndPoint = EndPoint;
+        }
         static string fileName = "path.txt";
-        static string workPath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+        static string workPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), fileName);
         public static string ReadpathFromFile()
         {
             return File.ReadAllText(workPath);
@@ -150,6 +164,12 @@ namespace ToolAndroid
                 }
             }
             return result;
+        }
+
+        public Rectangle DrawRectangle(Canvas cvPicture)
+        {
+            Rectangle rectangle = new Rectangle();
+            return rectangle;
         }
     }
 }

@@ -17,9 +17,10 @@ namespace ToolAndroid
     /// </summary>
     public partial class MainWindow : Window
     {
-
         static bool isDrawing;
         Point startPoint, endPoint;
+        private bool isLoaded = false;
+        static int count = 0;
 
         public MainWindow()
         {
@@ -33,7 +34,7 @@ namespace ToolAndroid
 
         private void BtnOpenNox_Click(object sender, RoutedEventArgs e)
         {
-            string currentPath = Directory.GetCurrentDirectory() + @"\path.txt";
+            string currentPath = Path.Combine(Directory.GetCurrentDirectory(), "path.txt");
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.ShowDialog();
             if (openFileDialog.FileName.Contains("Nox.exe"))
@@ -69,8 +70,6 @@ namespace ToolAndroid
             if (temp.isChecked) temp.isChecked = false;
         }
 
-        private bool isLoaded = false;
-        static int count = 0;
         private void BtnCaptureScreen_Click(object sender, RoutedEventArgs e)
         {
             cvPicture.Background = null;
@@ -89,6 +88,7 @@ namespace ToolAndroid
             {
                 LoadtoCanvas(cvPicture);
                 count++;
+                //MessageBox.Show(String.Format("width {0}\n height {1}", cvPicture.Width, cvPicture.Height));
             }
         }
 
@@ -110,16 +110,6 @@ namespace ToolAndroid
             else return;
         }
 
-        private void Window_Closed(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            cvPicture.Background = null;
-        }
-
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
@@ -132,18 +122,18 @@ namespace ToolAndroid
                 startPoint = e.GetPosition(cvPicture);
                 isDrawing = true;
             }
-            else return;
+            else isDrawing = false;
         }
 
-        private void DrawingRectangle(Point startPoint, Point endPoint, Canvas canvasPicture)
+        private Rectangle DrawingRectangle(Point startPoint, Point endPoint, Canvas canvasPicture)
         {
             Rectangle rectangle = new Rectangle();
             rectangle.Stroke = Brushes.Red;
-            rectangle.StrokeThickness = 4;
+            rectangle.StrokeThickness = 3;
             if ((endPoint.X < endPoint.Y) || (endPoint.Y < startPoint.Y))
             {
                 isDrawing = false;
-                return;
+                return null;
             }
             else
             {
@@ -151,7 +141,7 @@ namespace ToolAndroid
                 rectangle.Height = Math.Abs(endPoint.Y - startPoint.Y);
                 Canvas.SetLeft(rectangle, startPoint.X);
                 Canvas.SetTop(rectangle, startPoint.Y);
-                canvasPicture.Children.Add(rectangle);
+                return rectangle;
             }
         }
 
@@ -161,14 +151,30 @@ namespace ToolAndroid
             else return;
         }
 
+        private void BtnCut_Click(object sender, RoutedEventArgs e)
+        {
+            //if (cvPicture.Children.Count != 0)
+            //{
+            //    DrawingImage drawingImage = new DrawingImage();
+            //    drawingImage.
+            //}
+            //else return;
+        }
+
+        private void CvPicture_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
         private void CvPicture_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (isDrawing)
+            if (isDrawing && (e.RightButton != System.Windows.Input.MouseButtonState.Pressed))
             {
-                
                 endPoint = e.GetPosition(cvPicture);
+                if (endPoint.X < startPoint.X) return;
                 if (cvPicture.Children.Count > 1) cvPicture.Children.Clear();
-                DrawingRectangle(startPoint, endPoint,cvPicture);
+                if (DrawingRectangle(startPoint, endPoint, cvPicture) != null)
+                    cvPicture.Children.Add(DrawingRectangle(startPoint, endPoint, cvPicture));
             }
             else return;
         }

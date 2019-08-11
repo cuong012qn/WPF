@@ -29,7 +29,7 @@ namespace ToolAndroid
 
         public void Execute(object parameter)
         {
-            return true;
+            return;
         }
     }
 }
