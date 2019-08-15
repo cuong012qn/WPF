@@ -28,7 +28,7 @@
             <DockPanel Margin="5">
                 <TextBlock Text="Thanh công cụ" FontSize="20" Margin="5"></TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Chọn vùng" Width="100" Margin="5" FontSize="20" ></Button>
+                    <Button Content="Chọn vùng" Width="100" Margin="5" FontSize="20" Click="Button_Click" ></Button>
                     <Button  x:Name="btnCut" Content="Cắt" Width="100" Margin="5" FontSize="20" Click="BtnCut_Click" ></Button>
                 </StackPanel>
             </DockPanel>

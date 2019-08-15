@@ -1,17 +1,14 @@
-﻿using System;
+﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using Emgu.CV.CvEnum;
-using System.Media;
-using System.Windows.Shapes;
-using System.Windows;
 
 namespace ToolAndroid
 {
@@ -166,10 +163,11 @@ namespace ToolAndroid
             return result;
         }
 
-        public Rectangle DrawRectangle(Canvas cvPicture)
-        {
-            Rectangle rectangle = new Rectangle();
-            return rectangle;
-        }
+        //public Rectangle DrawRectangle(Point startPoint,Point endPoint)
+        //{
+        //    Rectangle rectangle = new Rectangle();
+        //    rectangle.stroke
+        //    return rectangle;
+        //}
     }
 }

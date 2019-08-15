@@ -1,14 +1,13 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
-using System.Windows.Shapes;
+//using System.Windows.Shapes;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using Path = System.IO.Path;
-using System.Threading;
 
 namespace ToolAndroid
 {
@@ -117,12 +116,8 @@ namespace ToolAndroid
 
         private void CvPicture_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (!isDrawing)
-            {
-                startPoint = e.GetPosition(cvPicture);
-                isDrawing = true;
-            }
-            else isDrawing = false;
+            isDrawing = true;
+            startPoint = e.GetPosition(cvPicture);
         }
 
         private Rectangle DrawingRectangle(Point startPoint, Point endPoint, Canvas canvasPicture)
@@ -147,8 +142,7 @@ namespace ToolAndroid
 
         private void CvPicture_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (isDrawing) isDrawing = false;
-            else return;
+            isDrawing = false;
         }
 
         private void BtnCut_Click(object sender, RoutedEventArgs e)
@@ -166,15 +160,41 @@ namespace ToolAndroid
 
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void CvPicture_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (isDrawing && (e.RightButton != System.Windows.Input.MouseButtonState.Pressed))
+            if (isDrawing)
             {
+                if (e.LeftButton != System.Windows.Input.MouseButtonState.Pressed)
+                {
+                    isDrawing = false;
+                    return;
+                }
                 endPoint = e.GetPosition(cvPicture);
                 if (endPoint.X < startPoint.X) return;
-                if (cvPicture.Children.Count > 1) cvPicture.Children.Clear();
-                if (DrawingRectangle(startPoint, endPoint, cvPicture) != null)
-                    cvPicture.Children.Add(DrawingRectangle(startPoint, endPoint, cvPicture));
+                //if (cvPicture.Children.Count > 1) cvPicture.Children.Clear();
+                //if (DrawingRectangle(startPoint, endPoint, cvPicture) != null)
+                //    cvPicture.Children.Add(DrawingRectangle(startPoint, endPoint, cvPicture));
+                DrawingGroup dg = new DrawingGroup();
+                Image img = new Image();
+                using (DrawingContext dc = dg.Open())
+                {
+                    img.Source = null;
+                    double width = Math.Abs(endPoint.X - startPoint.X);
+                    double height = Math.Abs(endPoint.Y - startPoint.Y);
+                    Rect rect = new Rect(startPoint.X, startPoint.Y, width, height);
+                    dc.DrawRectangle(null, new Pen(Brushes.CornflowerBlue, 2), rect);
+                }
+                DrawingImage dimg = new DrawingImage(dg);
+                img.Source = dimg;
+                Canvas.SetLeft(img, startPoint.X);
+                Canvas.SetTop(img, startPoint.Y);
+                if (cvPicture.Children.Count > 0) cvPicture.Children.Clear();
+                cvPicture.Children.Add(img);
             }
             else return;
         }
