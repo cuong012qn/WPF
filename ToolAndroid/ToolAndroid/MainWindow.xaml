@@ -24,12 +24,20 @@
                 </StackPanel>
             </Border>
         </DockPanel>
+        
         <Border DockPanel.Dock="Top" Margin="5" BorderThickness="0.5" BorderBrush="Black">
             <DockPanel Margin="5">
                 <TextBlock Text="Thanh công cụ" FontSize="20" Margin="5"></TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="Chọn vùng" Width="100" Margin="5" FontSize="20" Click="Button_Click" ></Button>
-                    <Button  x:Name="btnCut" Content="Cắt" Width="100" Margin="5" FontSize="20" Click="BtnCut_Click" ></Button>
+                    <StackPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="5"></Setter>
+                            <Setter Property="FontSize" Value="20"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button Content="Chọn vùng" Width="100" Click="Button_Click" ></Button>
+                    <Button  x:Name="btnDeleteSelection" Content="Xóa vùng" Width="100" Click="BtnDeleteSelection_Click" ></Button>
+                    <Button  x:Name="btnCut" Content="Cắt" Width="100" Click="BtnCut_Click" ></Button>
                 </StackPanel>
             </DockPanel>
         </Border>
@@ -39,7 +47,7 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove">
+                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseEnter="CvPicture_MouseEnter" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove">
                     <Canvas.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="_Cut">

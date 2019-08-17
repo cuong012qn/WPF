@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 //using System.Windows.Shapes;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -16,10 +17,13 @@ namespace ToolAndroid
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region GlobalVariable
         static bool isDrawing;
         Point startPoint, endPoint;
         private bool isLoaded = false;
         static int count = 0;
+        bool isChooseLocation = false;
+        #endregion
 
         public MainWindow()
         {
@@ -116,8 +120,20 @@ namespace ToolAndroid
 
         private void CvPicture_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            isDrawing = true;
-            startPoint = e.GetPosition(cvPicture);
+            if (isChooseLocation)
+            {
+                if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                {
+                    Point p = e.GetPosition(cvPicture);
+                    MessageBox.Show(String.Format("Tọa độ\nX {0}\nY {1}", p.X, p.Y));
+                }
+                else return;
+            }
+            else
+            {
+                isDrawing = true;
+                startPoint = e.GetPosition(cvPicture);
+            }
         }
 
         private Rectangle DrawingRectangle(Point startPoint, Point endPoint, Canvas canvasPicture)
@@ -147,6 +163,7 @@ namespace ToolAndroid
 
         private void BtnCut_Click(object sender, RoutedEventArgs e)
         {
+
             //if (cvPicture.Children.Count != 0)
             //{
             //    DrawingImage drawingImage = new DrawingImage();
@@ -155,14 +172,27 @@ namespace ToolAndroid
             //else return;
         }
 
-        private void CvPicture_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (isChooseLocation) isChooseLocation = false;
+            else isChooseLocation = true;
+        }
+
+        private void BtnCut_Click_1(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnDeleteSelection_Click(object sender, RoutedEventArgs e)
         {
+            cvPicture.Children.Clear();
+            isDrawing = false;
+        }
 
+        private void CvPicture_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (isChooseLocation)
+                this.Cursor = Cursors.Pen;
         }
 
         private void CvPicture_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -195,6 +225,11 @@ namespace ToolAndroid
                 Canvas.SetTop(img, startPoint.Y);
                 if (cvPicture.Children.Count > 0) cvPicture.Children.Clear();
                 cvPicture.Children.Add(img);
+
+            }
+            else if (isChooseLocation)
+            {
+
             }
             else return;
         }
