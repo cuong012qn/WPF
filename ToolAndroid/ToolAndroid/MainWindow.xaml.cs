@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 //using System.Windows.Shapes;
@@ -27,12 +28,22 @@ namespace ToolAndroid
 
         public MainWindow()
         {
+            //Stopwatch sw = new Stopwatch();
+            //sw.Start();
             InitializeComponent();
             Core.CleanPicture();
             //Core.FindImage();
             //cvPicture.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(Directory.GetCurrentDirectory(), "Capture", "image.png"),UriKind.Relative)));
             tbPathNox.Text = Core.ReadpathFromFile();
             lvInfomation.ItemsSource = Core.GetDevices(tbPathNox.Text.Replace("Nox.exe", ""));
+            //sw.Stop();
+            //TimeSpan ts = sw.Elapsed;
+
+            //// Format and display the TimeSpan value.
+            //string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+            //    ts.Hours, ts.Minutes, ts.Seconds,
+            //    ts.Milliseconds / 10);
+            //MessageBox.Show("RunTime " + elapsedTime);
         }
 
         private void BtnOpenNox_Click(object sender, RoutedEventArgs e)
@@ -105,10 +116,11 @@ namespace ToolAndroid
                 bmImage.CacheOption = BitmapCacheOption.OnDemand;
                 bmImage.UriSource = new Uri(Path.Combine(Directory.GetCurrentDirectory(), "Capture", String.Format("image_{0}.png", count)), UriKind.Relative);
                 bmImage.EndInit();
-                cvPicture.Height = bmImage.Height;
-                cvPicture.Width = bmImage.Width;
+                //cvPicture.Height = bmImage.Height;
+                //cvPicture.Width = bmImage.Width;
                 imageBrush.ImageSource = bmImage;
                 image.Background = imageBrush;
+                
             }
             else return;
         }
@@ -126,6 +138,7 @@ namespace ToolAndroid
                 {
                     Point p = e.GetPosition(cvPicture);
                     MessageBox.Show(String.Format("Tọa độ\nX {0}\nY {1}", p.X, p.Y));
+                    Clipboard.SetText("123");
                 }
                 else return;
             }
@@ -163,7 +176,8 @@ namespace ToolAndroid
 
         private void BtnCut_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show(String.Format("Height {0}\nWidth {1}", cvPicture.Height, cvPicture.Width));
+            MessageBox.Show(String.Format("Height {0}\nWidth {1}", cvPicture.ActualHeight, cvPicture.ActualWidth));
             //if (cvPicture.Children.Count != 0)
             //{
             //    DrawingImage drawingImage = new DrawingImage();

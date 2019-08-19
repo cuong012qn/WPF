@@ -43,3 +43,10 @@ F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\tr\ZedGraph.resources.dll
 F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\zh-cn\ZedGraph.resources.dll
 F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\zh-tw\ZedGraph.resources.dll
 F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ToolAndroid.csproj.CopyComplete
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignColors.dll
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignThemes.Wpf.dll
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignColors.pdb
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignThemes.Wpf.pdb
+F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignThemes.Wpf.xml
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ControlBarUC.g.cs
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ControlBarUC.baml

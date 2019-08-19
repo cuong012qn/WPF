@@ -43,6 +43,12 @@
     <Reference Include="Emgu.CV.World, Version=4.1.0.3420, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EMGU.CV.4.1.0.3420\lib\net35\Emgu.CV.World.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.0\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -69,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ControlBarUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,6 +88,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Command.cs" />
+    <Compile Include="ControlBarUC.xaml.cs">
+      <DependentUpon>ControlBarUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Core.cs" />
     <Compile Include="Devices.cs" />
     <Compile Include="MainWindow.xaml.cs">

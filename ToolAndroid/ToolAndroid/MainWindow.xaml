@@ -42,12 +42,12 @@
             </DockPanel>
         </Border>
         <Border BorderBrush="Black" BorderThickness="0.5" Margin="5">
-            <Grid x:Name="gr">
-                <Grid.ColumnDefinitions>
+            <DockPanel>
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Canvas x:Name="cvPicture" Margin="5" Grid.Column="0" MouseEnter="CvPicture_MouseEnter" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove">
+                </Grid.ColumnDefinitions>-->
+                <Canvas Width="600" x:Name="cvPicture" DockPanel.Dock="Left" Margin="5" Grid.Column="0" MouseEnter="CvPicture_MouseEnter" MouseDown="CvPicture_MouseDown"  MouseUp="CvPicture_MouseUp" MouseMove="CvPicture_MouseMove">
                     <Canvas.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="_Cut">
@@ -56,8 +56,11 @@
                             </MenuItem>
                         </ContextMenu>
                     </Canvas.ContextMenu>
+                    <Canvas.LayoutTransform>
+                        <ScaleTransform ></ScaleTransform>
+                    </Canvas.LayoutTransform>
                 </Canvas>
-                <ListView Margin="5" x:Name="lvInfomation" Grid.Column="1">
+                <ListView Margin="5" x:Name="lvInfomation" Grid.Column="1" DockPanel.Dock="Right" Width="300">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn>
@@ -104,7 +107,7 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-            </Grid>
+            </DockPanel>
         </Border>
     </DockPanel>
 </Window>
