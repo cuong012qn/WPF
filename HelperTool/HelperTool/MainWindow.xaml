@@ -1,0 +1,69 @@
+﻿<Window x:Class="HelperTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HelperTool"
+        mc:Ignorable="d"
+        Title="DocHelper" Height="300" Width="300"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <StackPanel Margin="5">
+            <StackPanel.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="20"></Setter>
+                </Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="FontSize" Value="20"></Setter>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="Đường dẫn"></TextBlock>
+            <TextBox x:Name="txbDuongDan" ToolTip="Nhập đường dẫn tại đây"></TextBox>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="5">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="20"></Setter>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontSize" Value="20"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Số lượng"></TextBlock>
+                <TextBox x:Name="txbSoLuong" ToolTip="Số lượng" Text="1"></TextBox>
+            </StackPanel>
+            <StackPanel Margin="5" Grid.Column="1">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="20"></Setter>
+                    </Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontSize" Value="20"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock Text="Số luồng"></TextBlock>
+                <TextBox x:Name="txbSoluong" ToolTip="Số luồng chạy" Text="1"></TextBox>
+            </StackPanel>
+        </Grid>
+        <StackPanel Margin="5">
+            <TextBlock HorizontalAlignment="Right" Text="Ẩn hiện trình duyệt" FontSize="20"></TextBlock>
+            <ComboBox HorizontalAlignment="Right" Width="100" FontSize="20" x:Name="cbHeadless" SelectedIndex="0">
+                <ComboBoxItem>
+                    <TextBlock Text="Bật"></TextBlock>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <TextBlock Text="Tắt"></TextBlock>
+                </ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="btnBatDau" HorizontalAlignment="Right" Content="Bắt đầu chạy" FontSize="20" Height="50" Margin="5" Click="BtnBatDau_Click"></Button>
+        </StackPanel>
+       
+    </StackPanel>
+</Window>
