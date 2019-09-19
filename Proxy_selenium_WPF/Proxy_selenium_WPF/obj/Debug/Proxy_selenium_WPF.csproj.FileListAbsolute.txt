@@ -3,7 +3,6 @@ F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\Proxy_selenium_WPF.exe
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\Proxy_selenium_WPF.pdb
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\WebDriver.dll
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\WebDriver.xml
-F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF.csprojAssemblyReference.cache
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\MainWindow.g.cs
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\App.g.cs
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF_MarkupCompile.cache
@@ -16,3 +15,18 @@ F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF.csproj
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF.csproj.CopyComplete
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF.exe
 F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF.pdb
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\x86\liblept1753.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\x86\libtesseract3052.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\x64\liblept1753.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\x64\libtesseract3052.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\Tesseract.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\MaterialDesignColors.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\MaterialDesignThemes.Wpf.dll
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\MaterialDesignColors.pdb
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\MaterialDesignThemes.Wpf.pdb
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\bin\Debug\MaterialDesignThemes.Wpf.xml
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\App.baml
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\UCToolBar.g.cs
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\UCToolBar.baml
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\GeneratedInternalTypeHelper.g.cs
+F:\WPF\Proxy_selenium_WPF\Proxy_selenium_WPF\obj\Debug\Proxy_selenium_WPF.csprojAssemblyReference.cache

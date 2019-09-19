@@ -48,5 +48,4 @@ F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignThemes.Wpf.dll
 F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignColors.pdb
 F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignThemes.Wpf.pdb
 F:\WPF\ToolAndroid\ToolAndroid\bin\Debug\MaterialDesignThemes.Wpf.xml
-F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ControlBarUC.g.cs
-F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\ControlBarUC.baml
+F:\WPF\ToolAndroid\ToolAndroid\obj\Debug\App.baml

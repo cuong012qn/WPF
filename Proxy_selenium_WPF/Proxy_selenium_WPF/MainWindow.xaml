@@ -6,46 +6,75 @@
         xmlns:local="clr-namespace:Proxy_selenium_WPF"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="215" Width="300">
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <TextBox Text=""  x:Name="txbUsername" Width="auto"  Grid.ColumnSpan="2" FontSize="30" Margin="1"></TextBox>
-        <PasswordBox x:Name="pbPassword" Grid.Row="1" FontSize="30" Width="auto" Margin="1" Grid.ColumnSpan ="2"></PasswordBox>
-        --><!--<TextBox Text="" x:Name="txbPassword" Width="auto"  Grid.ColumnSpan="2" FontSize="30" Margin="1" Grid.Row="1"></TextBox>--><!--
-        <Button
-            x:Name="btnCheck"
-            Grid.Column="1"
-            Grid.Row="2"
-            Height="40"
-            Content="Check"
-            FontSize="20"
-            Margin="1"
-            Click="Button_Click"></Button>
-    </Grid>-->
-    <DockPanel LastChildFill="True">
+        Title="MainWindow" Height="700" Width="300"
+        WindowStyle="None"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+    <DockPanel LastChildFill="true">
+        <DockPanel DockPanel.Dock="Top" Height="auto">
+            <local:UCToolBar></local:UCToolBar>
+        </DockPanel>
         <StackPanel DockPanel.Dock="Top">
-            <TextBlock Text="Enter username:" FontSize="15" Margin="1"></TextBlock>
-            <TextBox x:Name="txbUsername" FontSize="25" Margin="1"></TextBox>
+            <StackPanel>
+                <TextBox x:Name="txbUsername" materialDesign:HintAssist.Hint="Username" FontSize="17" Margin="5">
+                    <!--<TextBox.Text>
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>-->
+                </TextBox>
+                <!--<TextBlock Text="Enter username:" FontSize="15" Margin="1"></TextBlock>-->
+                <!--<TextBox x:Name="txbUsername" FontSize="25" Margin="1"></TextBox>-->
+            </StackPanel>
+            <StackPanel>
+                <PasswordBox x:Name="pwbPassword" materialDesign:HintAssist.Hint="Password" FontSize="17" Margin="5"/>
+                <!--<TextBlock Text="Enter password:" FontSize="15" Margin="1"></TextBlock>
+            <PasswordBox x:Name="pwbPassword" FontSize="25" Margin="1"></PasswordBox>-->
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Margin="0,5,5,5" Orientation="Horizontal" >
+                <ComboBox x:Name="cbChooseFeature" Width="100" materialDesign:ComboBoxAssist.ClassicMode="{Binding ElementName=ClassicModeCheckBox, Path=IsChecked}"
+                    Margin="0 8 0 8" HorizontalAlignment="Left">
+                    <ComboBoxItem
+                        IsSelected="True">
+                        Xem thông tin
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        Xem điểm
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top">
-            <TextBlock Text="Enter password:" FontSize="15" Margin="1"></TextBlock>
-            <PasswordBox x:Name="pwbPassword" FontSize="25" Margin="1"></PasswordBox>
-        </StackPanel>
-        <Grid>
+        <Grid DockPanel.Dock="Top" Height="auto" VerticalAlignment="Center" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnCheck" Content="Check" FontSize="25" Margin="1" Click="BtnCheck_Click"></Button>
-            <Button x:Name="btnExit" Content="Exit" Grid.Column="1" FontSize="25" Margin="1" Click="BtnExit_Click"></Button>
+            <Grid.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="5"></Setter>
+                    <Setter Property="FontSize" Value="17"></Setter>
+                </Style>
+            </Grid.Resources>
+            <Button Height="50" x:Name="btnCheck" Content="Login" Click="BtnCheck_Click"
+                     Style="{StaticResource MaterialDesignRaisedButton}" Background="CadetBlue" Width="100"></Button>
+            <Button Height="auto" x:Name="btnExit" Content="Exit" Grid.Column="1"   Click="BtnExit_Click"
+                    Style="{StaticResource MaterialDesignRaisedButton}" Background="MediumVioletRed" Width="100" ></Button>
         </Grid>
+        <DockPanel DockPanel.Dock="Top" Margin="5">
+            <!--<Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>-->
+            <RichTextBox VerticalAlignment="Top" x:Name="rtxbLog"
+                MinWidth="280" AcceptsReturn="True" IsDocumentEnabled="True"
+    VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Log" Height="auto" DockPanel.Dock="Top">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0"></Setter>
+                    </Style>
+                </RichTextBox.Resources>
+                <FlowDocument>
+                  
+                </FlowDocument>
+            </RichTextBox>
+        </DockPanel>
     </DockPanel>
 </Window>
