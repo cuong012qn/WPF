@@ -32,7 +32,7 @@ namespace Proxy_selenium_WPF
         private IWebDriver GetheadlessMode()
         {
             var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArgument("--headless");
+            //chromeOptions.AddArgument("--headless");
             var chromedriverServices = ChromeDriverService.CreateDefaultService();
             chromedriverServices.HideCommandPromptWindow = true;
             return new ChromeDriver(chromedriverServices, chromeOptions);
@@ -95,7 +95,7 @@ namespace Proxy_selenium_WPF
             brower.Navigate().GoToUrl(@"http://phongdaotao2.ntt.edu.vn/");
         }
 
-        private string GetResult(string username)
+        private bool GetResult(string username)
         {
             //id textbox "MSSV"
             //id captcha "imgSecurityCode1"
@@ -170,9 +170,8 @@ namespace Proxy_selenium_WPF
 
                 if (webDriver.SwitchTo().Alert().Text.Equals("Mã bảo vệ không trùng khớp."))
                 {
-                    string temp = webDriver.SwitchTo().Alert().Text;
                     webDriver.Dispose();
-                    return temp;
+                    return false;
                 }
                 //temp(webDriver);
                 //IList<IWebElement> lstElement = webDriver.FindElements(By.ClassName("grid.grid-color2.tblKetQuaHocTap"));
@@ -188,9 +187,9 @@ namespace Proxy_selenium_WPF
             {
                 CaptureWebPage(webDriver);
                 webDriver.Dispose();
-                return "Đăng nhập thành công";
+                return true;
             }
-            return null;
+            return false;
         }
 
 
@@ -334,27 +333,24 @@ namespace Proxy_selenium_WPF
                 }
                 else if (cbChooseFeature.SelectedIndex.Equals(1))
                 {
+                    string username = txbUsername.Text;
                     Mouse.OverrideCursor = Cursors.Wait;
                     try
                     {
-                        string username = txbUsername.Text;
-                        Task<string> writeLog = Task.Run(() => GetResult(username));
                         TextRange textRange = new TextRange(rtxbLog.Document.ContentStart, rtxbLog.Document.ContentEnd);
-                        if (writeLog.Result.Equals("Mã bảo vệ không trùng khớp."))
+                        bool waitResult;
+                        do
                         {
-                            //AddtextRTB(string.Format("Có lỗi khi đăng nhập, đăng nhập lại lần {0}",count),textRange);
-                            // textRange.Text += ("Có lỗi khi đăng nhập, đăng nhập lại lần " + count);
-                            this.Dispatcher.Invoke(() => textRange.Text += (string.Format("Có lỗi khi đăng nhập, đăng nhập lại lần {0}", count)));
-                            count++;
-                            BtnCheck_Click(sender, e);
-                        }
-                        else
-                        {
-                            //textRange.Text += await writeLog;
-                            string result = await writeLog;
-                            this.Dispatcher.Invoke(() => (textRange.Text += result));
-                            //AddtextRTB(await writeLog,textRange);
-                        }
+                            waitResult = false;
+                            Task<bool> writeLog = Task.Run(() => GetResult(username));
+                            waitResult = await writeLog;
+                            if (waitResult.Equals(false))
+                            {
+                                rtxbLog.Dispatcher.Invoke(() => textRange.Text += (string.Format("Có lỗi khi đăng nhập, đăng nhập lại lần {0}\n", count)));
+                                count++;
+                            }
+                        } while (!waitResult);
+                        rtxbLog.Dispatcher.Invoke(() => textRange.Text += "Lấy điểm thành công\n");
                     }
                     finally
                     {

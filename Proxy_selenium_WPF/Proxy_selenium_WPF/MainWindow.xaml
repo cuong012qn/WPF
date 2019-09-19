@@ -69,6 +69,7 @@
                 <RichTextBox.Resources>
                     <Style TargetType="{x:Type Paragraph}">
                         <Setter Property="Margin" Value="0"></Setter>
+                        <Setter Property="FontSize" Value="17"></Setter>
                     </Style>
                 </RichTextBox.Resources>
                 <FlowDocument>
