@@ -1,0 +1,83 @@
+﻿<Window x:Class="Proxy_selenium_WPF.ViewInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:UC ="clr-namespace:Proxy_selenium_WPF"
+        Title="ViewInfo"
+        mc:Ignorable="d"
+         Height="980" Width="740" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <UC:UCToolBar DockPanel.Dock="Top"></UC:UCToolBar>
+        <DockPanel DockPanel.Dock="Top">
+            <Border Background="#FF40B9DC" Height="60">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="FontSize" Value="20"></Setter>
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                            <Setter Property="Foreground" Value="WhiteSmoke"></Setter>
+                            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <TextBlock>THÔNG TIN HỌC SINH</TextBlock>
+                    <TextBlock x:Name="txbHoTen"></TextBlock>
+                </StackPanel>
+            </Border>
+            <!--<Button Background="#FF40B9DC" x:Name="btnTitle"
+                           Content="THÔNG TIN SINH VIÊN" FontSize="20" Height="50" FontWeight="Bold"></Button>-->
+        </DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="140" Width="140"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Column="0">
+                <TextBlock x:Name="txbMSSV" Text="MSSV: " DockPanel.Dock="Bottom"
+                           FontSize="14" FontWeight="DemiBold"></TextBlock>
+                <Canvas x:Name="cvImage" MaxHeight="180" MaxWidth="135"
+                        Height="180"
+                        Width="135"></Canvas>
+            </DockPanel>
+            <StackPanel Grid.Column="1">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="16"></Setter>
+                        <Setter Property="Margin" Value="0 5 0 0"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock x:Name="txbTrangThai" Text="Trạng thái: "></TextBlock>
+                <TextBlock x:Name="txbNgayVaoTruong" Text="Ngày vào trường: "></TextBlock>
+                <TextBlock x:Name="txbKhoa_year" Text="Khóa: "></TextBlock>
+                <TextBlock x:Name="txbBacDaoTao" Text="Bậc đào tạo: "></TextBlock>
+                <TextBlock x:Name="txbNganh" Text="Ngành: "></TextBlock>
+                <TextBlock x:Name="txbKhoa" Text="Khoa: "></TextBlock>
+                <TextBlock x:Name="txbChucVu" Text="Chức vụ: " Margin="0 5 0 5"></TextBlock>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="16"></Setter>
+                        <Setter Property="Margin" Value="0 5 0 0"></Setter>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBlock x:Name="txbGioiTinh" Text="Giới tính: "></TextBlock>
+                <TextBlock x:Name="txbMaHoSo" Text="Mã hồ sơ: "></TextBlock>
+                <TextBlock x:Name="txbCoSo" Text="Cơ sở: "></TextBlock>
+                <TextBlock x:Name="txbLoaiDaotao" Text="Loại đào tạo: "></TextBlock>
+                <TextBlock x:Name="txbChuyenNganh" Text="Chuyên ngành: "></TextBlock>
+                <TextBlock x:Name="txbLop" Text="Lớp: "></TextBlock>
+                <TextBlock x:Name="txbCongTacDoan" Text="Công tác đoàn: " Margin="0 5 0 5"></TextBlock>
+            </StackPanel>
+        </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Button Content="hi"></Button>
+        </Grid>
+    </DockPanel>
+</Window>

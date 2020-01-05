@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ViewModels="clr-namespace:QuanLyKho_MVVM.ViewModels">
+
+    <!--#region OldViewModels-->
+    <ViewModels:LoadingViewModel x:Key="LoadingVM"></ViewModels:LoadingViewModel>
+    <ViewModels:LoginViewModel x:Key="LoginVM"></ViewModels:LoginViewModel>
+    <ViewModels:DefaultUserViewModel x:Key="DefalutUserVM"></ViewModels:DefaultUserViewModel>
+    <!--<ViewModels:CustomerViewModel x:Key="CustomerVM"></ViewModels:CustomerViewModel>-->
+    <ViewModels:UserAdminViewModel x:Key="AdminVM"></ViewModels:UserAdminViewModel>
+    <!--#endregion-->
+
+
+    <!--#region Main-->
+    <ViewModels:MainWindowViewModel x:Key="MainWindowVM"></ViewModels:MainWindowViewModel>
+    <ViewModels:UCInputCountViewModel x:Key="UCInputCountVM"></ViewModels:UCInputCountViewModel>
+    <!--<ViewModels:UCLoginViewModel x:Key="LoginUCVM"></ViewModels:UCLoginViewModel>-->
+    <!--#endregion-->
+    
+    
+
+    <!--UserControl--><!--
+    <ViewModels:UCInputSfViewModel x:Key="InputStaffVM"></ViewModels:UCInputSfViewModel>
+    <ViewModels:UCUnitViewModel x:Key="UnitUCVM"></ViewModels:UCUnitViewModel>
+    <ViewModels:UCCustomerViewModel x:Key="CustomerUCVM"></ViewModels:UCCustomerViewModel>
+    <ViewModels:UCSupplierViewModel x:Key="SupplierUCVM"></ViewModels:UCSupplierViewModel>
+    <ViewModels:UCObjectViewModel x:Key="ObjectUCVM"></ViewModels:UCObjectViewModel>
+    <ViewModels:UCInputViewModel x:Key="InputUCVM"></ViewModels:UCInputViewModel>
+    <ViewModels:UCOutputViewModel x:Key="OutputUCVM"></ViewModels:UCOutputViewModel>
+    --><!---->
+</ResourceDictionary>
