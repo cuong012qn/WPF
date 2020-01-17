@@ -9,9 +9,18 @@
 
     public class MainWindow
     {
+        private ItemsControl _itemsControl;
+
+        public ItemsControl ItemsControl { get => _itemsControl; set => _itemsControl = value; }
+
         public MainWindow()
         {
 
+        }
+
+        public MainWindow(ItemsControl p)
+        {
+            this.ItemsControl = p;
         }
 
         public static void DrawListTextBox(ItemsControl items)
@@ -32,8 +41,8 @@
                         VerticalAlignment = VerticalAlignment.Center,
                         HorizontalAlignment = HorizontalAlignment.Center,
                         FontSize = 20,
-                        //Height = 100,
-                        //Width = 100,
+                        Height = 100,
+                        Width = 100,
                         TextAlignment = TextAlignment.Center,
                         Margin = new Thickness(5),
                         MaxLength = 1
@@ -82,11 +91,12 @@
                         if (column is TextBox)
                         {
                             (column as TextBox).Text = input[countRows][countColumns].ToString();
-                            (column as TextBox).Width = (column as TextBox).ActualHeight;
-                            (column as TextBox).TextAlignment = TextAlignment.Center;
+                            //(column as TextBox).Width = (column as TextBox).ActualHeight;
+                            //(column as TextBox).TextAlignment = TextAlignment.Center;
                             countColumns++;
                         }
                     }
+                    countRows++;
                 }
             }));
         }

@@ -6,9 +6,11 @@
         xmlns:local="clr-namespace:Sodoku"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:VM ="clr-namespace:Sodoku.ViewModels"
+        xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
         WindowState="Maximized"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="450" Width="800" Name="MW">
+        Title="MainWindow" Height="450" Width="800" Name="MW"
+        >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" 
@@ -28,6 +30,24 @@
         </Grid.ColumnDefinitions>
         <ItemsControl Grid.Column="0" Grid.ColumnSpan="4" ItemsSource="{Binding Item}" x:Name="itemcontrol">
         </ItemsControl>
-        <Button Grid.Column="4" Margin="5" Command="{Binding TestCommand}" CommandParameter="{Binding ElementName=itemcontrol}"></Button>
+        <StackPanel Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBox Margin="5" FontSize="20" material:HintAssist.Hint="Column"
+                     Text="{Binding Column}" Width="100"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                <TextBox Margin="5" FontSize="20" material:HintAssist.Hint="Row"
+                     Text="{Binding Row}" Width="100"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Grid.Column="4" Content="Load" FontSize="20" Width="100" Height="50"
+                    Margin="5" Command="{Binding LoadCommand}" 
+                    CommandParameter="{Binding ElementName=itemcontrol}"></Button>
+                <Button Grid.Column="4" Content="Find" FontSize="20" Width="100" Height="50"
+                    Margin="5" Command="{Binding FindCommand}" 
+                    ></Button>
+            </StackPanel>
+           
+        </StackPanel>
     </Grid>
 </Window>
