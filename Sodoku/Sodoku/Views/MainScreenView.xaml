@@ -8,60 +8,60 @@
         xmlns:VM="clr-namespace:Sodoku.ViewModels"
         xmlns:local="clr-namespace:Sodoku.Views"
         mc:Ignorable="d" WindowState="Maximized"
-         Height="1200" Width="1200"
+         Height="1200" Width="1400"
         Title="MainScreen">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedWindowCommand}" 
-                                   CommandParameter="{Binding ElementName=Matrix}"/>
+                                   CommandParameter="{Binding ElementName=Listbutton}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.DataContext>
         <VM:MainScreenViewModel></VM:MainScreenViewModel>
     </Window.DataContext>
     <StackPanel Orientation="Horizontal">
-        <StackPanel x:Name="Matrix">
+        <StackPanel x:Name="Matrix" DockPanel.Dock="Left">
             <StackPanel Orientation="Horizontal" Margin="5 5 0 0" x:Name="Row_1">
                 <Border BorderBrush="Red" BorderThickness="4 4 2 2">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" ></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" TextChanged="TextBox_TextChanged"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -71,43 +71,43 @@
                 <Border BorderBrush="Red" BorderThickness="2 4 2 2">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -117,43 +117,43 @@
                 <Border BorderBrush="Red" BorderThickness="2 4 4 2">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -165,43 +165,43 @@
                 <Border BorderBrush="Red" BorderThickness="4 2 2 2">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -211,43 +211,43 @@
                 <Border BorderBrush="Red" BorderThickness="2 2 2 2">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -257,43 +257,43 @@
                 <Border BorderBrush="Red" BorderThickness="2 2 4 2">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -305,43 +305,43 @@
                 <Border BorderBrush="Red" BorderThickness="4 2 2 4">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -351,43 +351,43 @@
                 <Border BorderBrush="Red" BorderThickness="2 2 2 4">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -397,43 +397,43 @@
                 <Border BorderBrush="Red" BorderThickness="2 2 4 4">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
-                         Height="100" Width="100"
-                         TextAlignment="Center"
-                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBox Text="1" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="2" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
-                            <TextBox Text="3" FontSize="20" Margin="5"
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
+                         Height="100" Width="100"
+                         TextAlignment="Center"
+                         Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
+                            <TextBox FontSize="20" Margin="5"
                          Height="100" Width="100"
                          TextAlignment="Center"
                          Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"></TextBox>
@@ -442,8 +442,55 @@
                 </Border>
             </StackPanel>
         </StackPanel>
-        <Button Content="Load" Height="75" Width="100" FontSize="20"
+        <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Time" FontSize="20" Margin="5"></TextBlock>
+                <TextBlock x:Name="TxbTime" Text="{Binding Time}"  FontSize="20" Margin="5"></TextBlock>
+                <Button Content="Stop" Command="{Binding StopWatchCommand}" 
+                        CommandParameter="{Binding ElementName=TxbTime}"
+                        HorizontalAlignment="Right"/>
+            </StackPanel>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="5">
+                <StackPanel x:Name="Listbutton">
+                    <StackPanel.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                            <Setter Property="Height" Value="100"></Setter>
+                            <Setter Property="Width" Value="100"></Setter>
+                            <Setter Property="FontSize" Value="20"></Setter>
+                            <Setter Property="Margin" Value="5"></Setter>
+                            <Setter Property="BorderBrush" Value="Black"></Setter>
+                            <Setter Property="Foreground" Value="#DD000000"></Setter>
+                        </Style>
+                    </StackPanel.Resources>
+                    <StackPanel Orientation="Horizontal">
+                        <!--<TextBlock Text="1" FontSize="20" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>-->
+                        <Button Content="1"/>
+                        <Button Content="2" Margin="0 5 0 5"/>
+                        <Button Content="3"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="4"/>
+                        <Button Content="5" Margin="0"/>
+                        <Button Content="6"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="7"/>
+                        <Button Content="8" Margin="0 5 0 5"/>
+                        <Button Content="9"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button  Height="75" Width="150" FontSize="20" Command="{Binding LoadFromFileCommand}"
+                     Margin="5" CommandParameter="{Binding ElementName=Matrix}">
+                    <Button.Content>
+                        <TextBlock TextWrapping="Wrap">Load from file</TextBlock>
+                    </Button.Content>
+                </Button>
+                <Button Content="Load" Height="75" Width="150" FontSize="20"
                 Margin="5" Command="{Binding LoadCommand}"
                 CommandParameter="{Binding ElementName=Matrix}"></Button>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </Window>

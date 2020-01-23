@@ -45,7 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
+    <Compile Include="Control.cs" />
+    <Compile Include="Generate.cs" />
     <Compile Include="MainWindow.cs" />
+    <Compile Include="Matrix.cs" />
+    <Compile Include="Number.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
