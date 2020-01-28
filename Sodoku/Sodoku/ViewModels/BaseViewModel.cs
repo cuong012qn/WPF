@@ -31,7 +31,7 @@ namespace Sodoku.ViewModels
         {
             try
             {
-                return _canExecute == null ? true : _canExecute((T)parameter);
+                return _canExecute == null || _canExecute((T)parameter);
             }
             catch
             {
@@ -46,8 +46,8 @@ namespace Sodoku.ViewModels
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
     }
 }
