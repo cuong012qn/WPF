@@ -1,23 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
-namespace UI
+﻿namespace UI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class Generate
     {
-        private static List<List<Number>> _matrix = CreateMatrix();
         private static readonly Random Random = new Random();
         private static readonly object Synclock = new object();
-        public static List<List<Number>> Matrix { get => _matrix; set => _matrix = value; }
+        public static List<List<Number>> Matrix { get; set; } = CreateMatrix();
+        public static List<List<Number>> GetResult { get; private set; }
 
         public Generate()
         {
 
+        }
+
+        public static void RemoveDigit(int countEmptyCell)
+        { 
+            while (countEmptyCell != 0)
+            {
+                int posCol = GetRandomPos(0, 9);
+                int posRow = GetRandomPos(0, 9);
+                if (!Matrix[posRow][posCol].Value.Equals(0))
+                {
+                    Matrix[posRow][posCol].Value = 0;
+                    Matrix[posRow][posCol].CanEdit = true;
+                    countEmptyCell--;
+                }
+            }
+        }
+
+        public static bool IsSudoku(List<List<Number>> inputMatrix)
+        {
+            if (inputMatrix.Count < 9) return false;
+            if (inputMatrix.Any(x => x.Count < 9))
+                return false;
+
+            //row
+            if (inputMatrix.Any(x => x.Select(k => x.Distinct()).Count() < 9))
+                return false;
+
+            // columns
+            for (int i = 0; i < 9; i++)
+            {
+                if (inputMatrix.Select(row
+                        => row[i].Value).Distinct().Count() < 9)
+                    return false;
+            }
+
+            // sub-grids
+            for (int i = 1; i <= 3; i++) //row
+            {
+                for (int j = 1; j <= 3; j++)//column
+                {
+                    if (inputMatrix.Where((_, pos) => ((pos + 3) / 3) == i)
+                            .SelectMany(lst => lst.Where((_, pos) => (pos + 3) / 3 == j).Select(k => k.Value))
+                            .Distinct().Count() < 9)
+                        return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>
@@ -31,7 +74,7 @@ namespace UI
             {
                 List<Number> temp = new List<Number>();
                 for (int j = 0; j < 9; j++)
-                    temp.Add(new Number() { Value = 0, CanEdit = true });
+                    temp.Add(new Number() { Value = 0, CanEdit = false });
                 result.Add(temp);
             }
             return result;
@@ -44,7 +87,7 @@ namespace UI
                 List<int> lstNumber = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
                 for (int column = 0; column < 9; column++)
                 {
-                    List<int> lstFillCell = GetLstFillCell(lstNumber, row, column);
+                    List<int> lstFillCell = ListCanFillCell(lstNumber, row, column);
                     if (lstFillCell.Count.Equals(0))
                     {
                         int k = 0;
@@ -70,7 +113,7 @@ namespace UI
 
                             for (int i = k; i < 9; i++)
                             {
-                                var temp = GetLstFillCell(lstNumber, row, i);
+                                var temp = ListCanFillCell(lstNumber, row, i);
                                 if (temp.Count > 0)
                                 {
                                     int pos = GetRandomPos(0, temp.Count);
@@ -89,6 +132,8 @@ namespace UI
                     }
                 }
             }
+
+            GetResult = Matrix;
         }
 
         /// <summary>
@@ -101,7 +146,7 @@ namespace UI
             return Matrix[posRow].Any(x => x.Value.Equals(0));
         }
 
-        private static List<int> GetLstFillCell(List<int> inputList, int posRow, int posCol)
+        private static List<int> ListCanFillCell(List<int> inputList, int posRow, int posCol)
         {
             List<int> result = new List<int>(inputList);
             //Check value on row remove if exists
@@ -111,13 +156,13 @@ namespace UI
                     result.Remove(Matrix[i][posCol].Value);
             }
             //Check value on box remove if exists
-            var box = GetBox(posCol, posRow);
-            for (int i = 0; i < box.Count; i++)
+            var box = GetsubMatrix(posCol, posRow);
+            foreach (var t in box)
             {
                 for (int j = 0; j < box.Count; j++)
                 {
-                    if (result.Contains(box[i][j].Value))
-                        result.Remove(box[i][j].Value);
+                    if (result.Contains(t[j].Value))
+                        result.Remove(t[j].Value);
                 }
             }
             return result;
@@ -143,7 +188,7 @@ namespace UI
         /// <param name="posCol">Position column</param>
         /// <param name="posRow">Position row</param>
         /// <returns>Matrix 3x3</returns>
-        public static List<List<Number>> GetBox(int posCol, int posRow)
+        public static List<List<Number>> GetsubMatrix(int posCol, int posRow)
         {
             var result = new List<List<Number>>();
             int col = -1, row = -1;

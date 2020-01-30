@@ -27,16 +27,23 @@
                 string[] inputFromFile = File.ReadAllText(address).Split('\n');
                 foreach (string s in inputFromFile)
                 {
-                    List<Number> Lines = new List<Number>();
-                    string[] vs = s.Split(' ');
-                    foreach (string v in vs)
+                    if (!string.IsNullOrEmpty(s))
                     {
-                        int temp = Convert.ToInt32(v);
-                        if (temp.Equals(0))
-                            Lines.Add(new Number() { Value = temp, CanEdit = true });
-                        else Lines.Add(new Number() { Value = temp, CanEdit = false });
+                        List<Number> Lines = new List<Number>();
+                        string[] vs = s.Split(' ');
+                        foreach (string v in vs)
+                        {
+                            if (!string.IsNullOrEmpty(v))
+                            {
+                                int temp = Convert.ToInt32(v);
+                                if (temp.Equals(0))
+                                    Lines.Add(new Number() { Value = temp, CanEdit = true });
+                                else Lines.Add(new Number() { Value = temp, CanEdit = false });
+                            }
+                        }
+
+                        result.Add(Lines);
                     }
-                    result.Add(Lines);
                 }
             }
             catch
@@ -62,21 +69,22 @@
         public static bool SetMatrix(StackPanel sp, List<List<Number>> inputMatrix)
         {
             LstMatrix = inputMatrix;
-            int ColBlock = 1, RowBlock = 1;
+            int colBlock = 1, rowBlock = 1;
             try
             {
                 foreach (StackPanel mainStack in sp.Children)
                 {
                     foreach (Border bd in mainStack.Children)
                     {
-                        int posRow = (RowBlock * 3) - 3; //0
-                        int posCol = (ColBlock * 3) - 3; //0
-                        foreach (StackPanel stackChild in (bd.Child as StackPanel).Children)
+                        int posRow = (rowBlock * 3) - 3; //0
+                        int posCol = (colBlock * 3) - 3; //0
+                        foreach (StackPanel stackChild in ((StackPanel)bd.Child).Children)
                         {
                             foreach (UIElement item in stackChild.Children)
                             {
                                 if (item is TextBox)
                                 {
+                                    (item as TextBox).Background = Brushes.White;
                                     #region Set event Textbox
                                     (item as TextBox).MaxLength = 1;
                                     (item as TextBox).PreviewTextInput += TextBox_PreviewTextInput;
@@ -96,11 +104,11 @@
                                 posCol++;
                             }
                             posRow++;
-                            posCol = (ColBlock * 3) - 3;
+                            posCol = (colBlock * 3) - 3;
                         }
-                        ColBlock++;
+                        colBlock++;
                     }
-                    ColBlock = 1; RowBlock++;
+                    colBlock = 1; rowBlock++;
                 }
             }
             catch { return false; }
@@ -164,8 +172,8 @@
         #region Event
         private static void TextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (!(sender as TextBox).Background.Equals(Brushes.CornflowerBlue))
-                (sender as TextBox).Text = string.Empty;
+            if (!((TextBox)sender).Background.Equals(Brushes.CornflowerBlue))
+                ((TextBox)sender).Text = string.Empty;
         }
 
         private static void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -176,27 +184,22 @@
 
         private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!(sender as TextBox).Background.Equals(Brushes.CornflowerBlue))
-                (sender as TextBox).Background = Brushes.White;
+            if (!((TextBox)sender).Background.Equals(Brushes.CornflowerBlue))
+                ((TextBox)sender).Background = Brushes.White;
         }
 
         private static void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (!(sender as TextBox).Background.Equals(Brushes.CornflowerBlue))
-                (sender as TextBox).Background = Brushes.Red;
-            tmpTextBox = sender as TextBox;
+            if (!((TextBox)sender).Background.Equals(Brushes.CornflowerBlue))
+                ((TextBox)sender).Background = Brushes.Red;
+            tmpTextBox = (TextBox)sender;
         }
 
         private static void Button_Click(object sender, RoutedEventArgs e)
         {
-            tmpTextBox.Text = (sender as Button).Content.ToString();
+            if (!tmpTextBox.Background.Equals(Brushes.CornflowerBlue))
+                tmpTextBox.Text = ((Button)sender).Content.ToString();
         }
         #endregion
     }
-
-    //public class Number
-    //{
-    //    public int Value { get; set; }
-    //    public bool CanEdit { get; set; }
-    //}
 }

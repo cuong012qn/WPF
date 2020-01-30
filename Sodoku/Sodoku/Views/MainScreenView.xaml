@@ -444,11 +444,22 @@
         </StackPanel>
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Time" FontSize="20" Margin="5"></TextBlock>
-                <TextBlock x:Name="TxbTime" Text="{Binding Time}"  FontSize="20" Margin="5"></TextBlock>
+                <TextBlock Text="Time" FontSize="20" Margin="5" HorizontalAlignment="Center"
+                           VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="TxbTime" Text="{Binding Time}" 
+                           FontSize="20" Margin="5" HorizontalAlignment="Center"
+                           VerticalAlignment="Center"></TextBlock>
                 <Button Content="Stop" Command="{Binding StopWatchCommand}" 
+                        FontSize="20" Height="50" Margin="5" Background="White" BorderBrush="White"
                         CommandParameter="{Binding ElementName=TxbTime}"
                         HorizontalAlignment="Right"/>
+                <TextBlock Text="Level" FontSize="20" HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Margin="5"></TextBlock>
+                <ComboBox Width="100" SelectedIndex="0" Margin="5" FontSize="20"
+                            ItemsSource="{Binding ListLevel}"
+                            DisplayMemberPath="Name"
+                            SelectedValue="{Binding SelectedLevel}">
+                </ComboBox>
             </StackPanel>
             <Border BorderBrush="Black" BorderThickness="1" Margin="5">
                 <StackPanel x:Name="Listbutton">
@@ -481,16 +492,18 @@
                 </StackPanel>
             </Border>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                <Button  Height="75" Width="150" FontSize="20" Command="{Binding LoadFromFileCommand}"
+                <Button  Height="75" Width="150" FontSize="20" Command="{Binding StartOnlineCommand}"
                      Margin="5" CommandParameter="{Binding ElementName=Matrix}">
                     <Button.Content>
-                        <TextBlock TextWrapping="Wrap">Load from file</TextBlock>
+                        <TextBlock TextWrapping="Wrap">Play Online</TextBlock>
                     </Button.Content>
                 </Button>
-                <Button Content="Load" Height="75" Width="150" FontSize="20"
-                Margin="5" Command="{Binding LoadCommand}"
+                <Button Content="Play Offline" Height="75" Width="150" FontSize="20"
+                Margin="5" Command="{Binding StartOfflineCommand}"
                 CommandParameter="{Binding ElementName=Matrix}"></Button>
             </StackPanel>
+            <Button Margin="5" Content="IsSudoku" FontSize="20"
+                    Height="75" Width="150" Command="{Binding IsSudokuCommand}"></Button>
         </StackPanel>
     </StackPanel>
 </Window>

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.IO;
-using System.Windows.Media;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
-using System.Globalization;
 using Number = UI.Number;
+using SudokuExtension.Models;
+using SudokuExtension;
+using UI;
 
 namespace Sodoku.ViewModels
 {
@@ -19,14 +19,38 @@ namespace Sodoku.ViewModels
     {
         private List<List<int>> _matrix;
         private string _time;
+        private Level _selectedLevel;
+        private ObservableCollection<Level> _listLevel;
 
+        public ObservableCollection<Level> ListLevel
+        {
+            get => _listLevel;
+            set
+            {
+                _listLevel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Level SelectedLevel
+        {
+            get => _selectedLevel;
+            set
+            {
+                _selectedLevel = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand LoadedWindowCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand LoadFromFileCommand { get; set; }
         public ICommand StopWatchCommand { get; set; }
+        public ICommand IsSudokuCommand { get; set; }
+        public ICommand StartOfflineCommand { get; set; }
+        public ICommand StartOnlineCommand { get; set; }
         private Stopwatch Watch;
 
-        public List<List<int>> Matrix { get => _matrix; set => _matrix = value; }
+        //public List<List<int>> Matrix { get => _matrix; set => _matrix = value; }
         public string Time
         {
             get => _time;
@@ -37,43 +61,20 @@ namespace Sodoku.ViewModels
             }
         }
 
+
         public MainScreenViewModel()
         {
+            ListLevel = new ObservableCollection<Level>();
+            ListLevel.Add(new Level() { Index = 0, Name = "Easy" });
+            ListLevel.Add(new Level() { Index = 1, Name = "Medium" });
+            ListLevel.Add(new Level() { Index = 2, Name = "Hard" });
+            ListLevel.Add(new Level() { Index = 3, Name = "Expert" });
             Watch = new Stopwatch();
-            Matrix = new List<List<int>>();
+            //Matrix = new List<List<int>>();
             LoadedWindowCommand = new RelayCommand<StackPanel>((p) => true,
-                (p) =>
+               async (p) =>
                 {
-                    //var list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                    //UI.Matrix.SetEventButton(p);
-                    //var t = new List<List<int>>();
-                    //t.Add(new List<int>() { 2, 3, 4, 5, 1, 6, 7, 8, 9 });
-                    //t.Add(new List<int>() { 5, 1, 6, 7, 8, 9, 0, 0, 0 });
-                    //t.Add(new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0 });
-                    //var s = UI.Algorithm.GetBoxMatrix(t, 6, 1);
-                    //for (int k = 0; k < 3; k++)
-                    //{
-                    //    if (!t[k][6].Equals(0))
-                    //    {
-                    //        if (list.Contains(t[k][6]))
-                    //            list.Remove(t[k][6]);
-                    //    }
-                    //}
-                    //t[1].ForEach(x =>
-                    //{
-                    //    if (list.Contains(x))
-                    //        list.Remove(x);
-                    //});
-                    //string result = string.Empty;
-                    //foreach (List<int> vs in s)
-                    //{
-                    //    vs.ForEach(x => result += x.ToString() + " ");
-                    //    result += "\n";
-                    //}
-                    //string a = string.Empty;
-                    //list.ForEach(x => a += x.ToString() + " ");
-                    //MessageBox.Show(a);
-                    //MessageBox.Show(result);
+                    UI.Matrix.SetEventButton(p);
                 });
 
             StopWatchCommand = new RelayCommand<object>((p) => true, (p) =>
@@ -84,12 +85,11 @@ namespace Sodoku.ViewModels
 
             LoadCommand = new RelayCommand<StackPanel>((p) => true, async (p) =>
             {
-                //UI.Matrix.GetMatrix(p as StackPanel);
-                //var mat = UI.Matrix.GetMatrixFromFile(Path.Combine(Directory.GetCurrentDirectory(), "InputMatrix.txt"));
-                //UI.Generate.Matrix = mat;
-                //var s = UI.Generate.GetBox(3, 3);
+                Stopwatch sw = new Stopwatch();
+
                 Task task = Task.Run(() =>
                 {
+                    sw.Start();
                     UI.Generate.FillMatrix();
                     var matrix = UI.Generate.Matrix;
                     string r = string.Empty;
@@ -101,26 +101,104 @@ namespace Sodoku.ViewModels
                         }
                         r += "\n";
                     }
+
                     File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "Output.txt"), r);
-                    MessageBox.Show(r);
+                    UI.Generate.RemoveDigit(45);
+                    var t = UI.Generate.Matrix;
+                    string s = string.Empty;
+                    foreach (List<Number> row in t)
+                    {
+                        foreach (Number column in row)
+                        {
+                            s += column.Value + " ";
+                        }
+                        s += "\n";
+                    }
+                    File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "InputMatrix.txt"), s);
+                    //MessageBox.Show(r);
                 });
                 await task;
+                if (task.IsCompleted) sw.Stop();
+                MessageBox.Show(sw.Elapsed.ToString());
             });
 
-            LoadFromFileCommand = new RelayCommand<StackPanel>((p) => { return true; }, (p) =>
+            LoadFromFileCommand = new RelayCommand<StackPanel>((p) => true, (p) =>
             {
-                List<List<Number>> getresult = UI.Matrix.GetMatrixFromFile(Path.Combine(Directory.GetCurrentDirectory(), "InputMatrix.txt"));
-                UI.Matrix.SetMatrix(p, getresult);
+                List<List<Number>> result = UI.Matrix.GetMatrixFromFile(Path.Combine(Directory.GetCurrentDirectory(), "InputMatrix.txt"));
+                UI.Matrix.SetMatrix(p, result);
                 Watch.Start();
                 Task task = Task.Run(() =>
                 {
                     while (Watch.IsRunning)
                     {
                         TimeSpan sp = Watch.Elapsed;
-                        Time = string.Format("{0:00}:{1:00}", sp.Minutes.ToString(), sp.Seconds.ToString());
+                        Time = $"{sp.Minutes.ToString():00}:{sp.Seconds.ToString():00}";
                     }
                 });
             });
+
+            IsSudokuCommand = new RelayCommand<object>((p) => true,
+                (p) =>
+                {
+                    string text = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),
+                        "Output.txt"));
+                    var getList = GetMatrixFromFile(text);
+                    MessageBox.Show(UI.Generate.IsSudoku(getList).ToString());
+
+                });
+
+            StartOfflineCommand = new RelayCommand<StackPanel>((p) => true, (p) =>
+              {
+
+              });
+
+            StartOnlineCommand = new RelayCommand<StackPanel>((p) => true, async (p) =>
+             {
+                 Api api = new Api();
+                 Sudoku su = await api.GetJson(SelectedLevel);
+                 List<List<Number>> matrix = GetMatrixFromString(su.GetQuestion());
+                 //MessageBox.Show(matrix[0].Count.ToString());
+                 UI.Matrix.SetMatrix(p, matrix);
+             });
+        }
+
+        private List<List<Number>> GetMatrixFromFile(string text)
+        {
+            List<List<Number>> result = new List<List<Number>>();
+            string[] rows = text.Split('\n');
+            foreach (var row in rows)
+            {
+                string[] t = row.Split(' ');
+                List<Number> list = new List<Number>();
+                foreach (var t1 in t)
+                {
+                    if (!string.IsNullOrEmpty(t1))
+                        list.Add(new Number() { CanEdit = true, Value = Convert.ToInt32(t1) });
+                }
+
+                if (list.Count > 0)
+                    result.Add(list);
+            }
+            return result;
+        }
+
+        private List<List<Number>> GetMatrixFromString(string text)
+        {
+            List<List<Number>> result = new List<List<Number>>();
+            List<Number> num = new List<Number>();
+            for (int i = 0; i < text.Length; i++)
+            {
+                num.Add((text[i] - '0').Equals(0)
+                    ? new Number() { CanEdit = true, Value = (text[i] - '0') }
+                    : new Number() { CanEdit = false, Value = (text[i] - '0') });
+                if (num.Count.Equals(9))
+                {
+                    var templist = new List<Number>(num);
+                    result.Add(templist);
+                    num.Clear();
+                }
+            }
+            return result;
         }
     }
 }
