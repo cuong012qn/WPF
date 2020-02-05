@@ -76,6 +76,9 @@
     <Compile Include="Views\MainScreenView.xaml.cs">
       <DependentUpon>MainScreenView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\newWindow.xaml.cs">
+      <DependentUpon>newWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,6 +92,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MainScreenView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\newWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

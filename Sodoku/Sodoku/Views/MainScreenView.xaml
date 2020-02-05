@@ -502,8 +502,12 @@
                 Margin="5" Command="{Binding StartOfflineCommand}"
                 CommandParameter="{Binding ElementName=Matrix}"></Button>
             </StackPanel>
-            <Button Margin="5" Content="IsSudoku" FontSize="20"
-                    Height="75" Width="150" Command="{Binding IsSudokuCommand}"></Button>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <Button Margin="5" Content="IsSudoku" FontSize="20"
+                        Height="75" Width="150" Command="{Binding IsSudokuCommand}"></Button>
+                <Button Margin="5" Content="Get" FontSize="20"
+                        Height="75" Width="150" Command="{Binding LoadCommand}"></Button>
+            </StackPanel>
         </StackPanel>
     </StackPanel>
 </Window>

@@ -12,12 +12,8 @@
     public class Matrix
     {
         private static TextBox tmpTextBox = new TextBox();
-        private static List<List<Number>> LstMatrix = new List<List<Number>>();
-
-        public Matrix()
-        {
-
-        }
+        public static List<List<Number>> MatrixSudoku = new List<List<Number>>();
+        public static StackPanel PanelSudoku = new StackPanel();
 
         public static List<List<Number>> GetMatrixFromFile(string address)
         {
@@ -68,7 +64,6 @@
 
         public static bool SetMatrix(StackPanel sp, List<List<Number>> inputMatrix)
         {
-            LstMatrix = inputMatrix;
             int colBlock = 1, rowBlock = 1;
             try
             {
@@ -131,6 +126,8 @@
                     result.Add(tempList);
                 }
             }
+
+            MatrixSudoku = result;
             return result;
         }
 
@@ -193,12 +190,14 @@
             if (!((TextBox)sender).Background.Equals(Brushes.CornflowerBlue))
                 ((TextBox)sender).Background = Brushes.Red;
             tmpTextBox = (TextBox)sender;
+            GetMatrix(PanelSudoku);
         }
 
         private static void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (!tmpTextBox.Background.Equals(Brushes.CornflowerBlue))
-                tmpTextBox.Text = ((Button)sender).Content.ToString();
+            if (tmpTextBox.Background != null)
+                if (!tmpTextBox.Background.Equals(Brushes.CornflowerBlue))
+                    tmpTextBox.Text = ((Button)sender).Content.ToString();
         }
         #endregion
     }

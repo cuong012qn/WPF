@@ -1,23 +1,55 @@
-﻿namespace UI
+﻿
+namespace UI
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using SudokuExtension.Models;
 
     public class Generate
     {
         private static readonly Random Random = new Random();
         private static readonly object Synclock = new object();
-        public static List<List<Number>> Matrix { get; set; } = CreateMatrix();
-        public static List<List<Number>> GetResult { get; private set; }
+        private List<List<Number>> Matrix { get; set; }
+        public List<List<Number>> SudokuAnswer { get; private set; }
+        public List<List<Number>> SudokuQues { get; private set; }
 
-        public Generate()
+
+        public Generate(Level level)
         {
-
+            //Easy 40 - 47
+            //Medium 47 - 50
+            //Hard 53 - 55
+            //Expert 57 - 59
+            Level.LevelConstants lv;
+            int diff = 0;
+            Enum.TryParse(level.Name, out lv);
+            switch (lv)
+            {
+                case Level.LevelConstants.Easy:
+                    diff = GetRandomPos(44, 47);
+                    break;
+                case Level.LevelConstants.Medium:
+                    diff = GetRandomPos(47, 50);
+                    break;
+                case Level.LevelConstants.Hard:
+                    diff = GetRandomPos(50, 55);
+                    break;
+                case Level.LevelConstants.Expert:
+                    diff = GetRandomPos(55, 59);
+                    break;
+            }
+            if (!diff.Equals(0))
+            {
+                this.Matrix = CreateMatrix();
+                FillMatrix();
+                RemoveDigit(diff);
+            }
         }
 
-        public static void RemoveDigit(int countEmptyCell)
-        { 
+        private void RemoveDigit(int countEmptyCell)
+        {
+
             while (countEmptyCell != 0)
             {
                 int posCol = GetRandomPos(0, 9);
@@ -29,6 +61,8 @@
                     countEmptyCell--;
                 }
             }
+
+            SudokuQues = Matrix;
         }
 
         public static bool IsSudoku(List<List<Number>> inputMatrix)
@@ -67,7 +101,7 @@
         /// Create Matrix 9x9 only 0
         /// </summary>
         /// <returns>Matrix 9x9 only 0</returns>
-        private static List<List<Number>> CreateMatrix()
+        private List<List<Number>> CreateMatrix()
         {
             List<List<Number>> result = new List<List<Number>>();
             for (int i = 0; i < 9; i++)
@@ -80,7 +114,7 @@
             return result;
         }
 
-        public static void FillMatrix()
+        private void FillMatrix()
         {
             for (int row = 0; row < 9; row++)
             {
@@ -121,7 +155,10 @@
                                     lstNumber.Remove(Matrix[row][i].Value);
                                 }
                             }
-                            k--;
+
+                            if (k > 0)
+                                k--;
+                            else k = 0;
                         }
                     }
                     else
@@ -133,7 +170,7 @@
                 }
             }
 
-            GetResult = Matrix;
+            SudokuAnswer = Matrix;
         }
 
         /// <summary>
@@ -141,12 +178,12 @@
         /// </summary>
         /// <param name="posRow">Input current row</param>
         /// <returns>True if has 0 in row, otherwise return false</returns>
-        private static bool IsFill(int posRow)
+        private bool IsFill(int posRow)
         {
             return Matrix[posRow].Any(x => x.Value.Equals(0));
         }
 
-        private static List<int> ListCanFillCell(List<int> inputList, int posRow, int posCol)
+        private List<int> ListCanFillCell(List<int> inputList, int posRow, int posCol)
         {
             List<int> result = new List<int>(inputList);
             //Check value on row remove if exists
@@ -174,7 +211,7 @@
         /// <param name="min">Input min value</param>
         /// <param name="max">Input max value</param>
         /// <returns>Random number</returns>
-        private static int GetRandomPos(int min, int max)
+        private int GetRandomPos(int min, int max)
         {
             lock (Synclock)
             {
@@ -188,7 +225,7 @@
         /// <param name="posCol">Position column</param>
         /// <param name="posRow">Position row</param>
         /// <returns>Matrix 3x3</returns>
-        public static List<List<Number>> GetsubMatrix(int posCol, int posRow)
+        private List<List<Number>> GetsubMatrix(int posCol, int posRow)
         {
             var result = new List<List<Number>>();
             int col = -1, row = -1;
@@ -211,7 +248,7 @@
             return result;
         }
 
-        public static List<List<Number>> FillBox()
+        private List<List<Number>> FillBox()
         {
             List<int> number = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             List<List<Number>> result = new List<List<Number>>();

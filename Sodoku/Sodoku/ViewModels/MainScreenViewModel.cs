@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,11 +18,10 @@ namespace Sodoku.ViewModels
 {
     class MainScreenViewModel : BaseViewModel
     {
-        private List<List<int>> _matrix;
         private string _time;
         private Level _selectedLevel;
+        private List<List<Number>> MatrixSudoku = new List<List<Number>>();
         private ObservableCollection<Level> _listLevel;
-
         public ObservableCollection<Level> ListLevel
         {
             get => _listLevel;
@@ -31,7 +31,6 @@ namespace Sodoku.ViewModels
                 OnPropertyChanged();
             }
         }
-
         public Level SelectedLevel
         {
             get => _selectedLevel;
@@ -41,6 +40,7 @@ namespace Sodoku.ViewModels
                 OnPropertyChanged();
             }
         }
+
         public ICommand LoadedWindowCommand { get; set; }
         public ICommand LoadCommand { get; set; }
         public ICommand LoadFromFileCommand { get; set; }
@@ -48,7 +48,7 @@ namespace Sodoku.ViewModels
         public ICommand IsSudokuCommand { get; set; }
         public ICommand StartOfflineCommand { get; set; }
         public ICommand StartOnlineCommand { get; set; }
-        private Stopwatch Watch;
+        private readonly Stopwatch Watch;
 
         //public List<List<int>> Matrix { get => _matrix; set => _matrix = value; }
         public string Time
@@ -64,15 +64,17 @@ namespace Sodoku.ViewModels
 
         public MainScreenViewModel()
         {
-            ListLevel = new ObservableCollection<Level>();
-            ListLevel.Add(new Level() { Index = 0, Name = "Easy" });
-            ListLevel.Add(new Level() { Index = 1, Name = "Medium" });
-            ListLevel.Add(new Level() { Index = 2, Name = "Hard" });
-            ListLevel.Add(new Level() { Index = 3, Name = "Expert" });
+            ListLevel = new ObservableCollection<Level>
+            {
+                new Level() { Index = 0, Name = "Easy" },
+                new Level() { Index = 1, Name = "Medium" },
+                new Level() { Index = 2, Name = "Hard" },
+                new Level() { Index = 3, Name = "Expert" }
+            };
             Watch = new Stopwatch();
             //Matrix = new List<List<int>>();
             LoadedWindowCommand = new RelayCommand<StackPanel>((p) => true,
-               async (p) =>
+                (p) =>
                 {
                     UI.Matrix.SetEventButton(p);
                 });
@@ -80,46 +82,24 @@ namespace Sodoku.ViewModels
             StopWatchCommand = new RelayCommand<object>((p) => true, (p) =>
             {
                 Watch.Stop();
-                MessageBox.Show(Watch.Elapsed.TotalSeconds.ToString(CultureInfo.InvariantCulture));
+                //MessageBox.Show(Watch.Elapsed.TotalSeconds.ToString(CultureInfo.InvariantCulture));
             });
 
-            LoadCommand = new RelayCommand<StackPanel>((p) => true, async (p) =>
+            LoadCommand = new RelayCommand<object>((p) => true, (p) =>
             {
-                Stopwatch sw = new Stopwatch();
-
-                Task task = Task.Run(() =>
+                var temp = UI.Matrix.MatrixSudoku;
+                string s = string.Empty;
+                foreach (var t in temp)
                 {
-                    sw.Start();
-                    UI.Generate.FillMatrix();
-                    var matrix = UI.Generate.Matrix;
-                    string r = string.Empty;
-                    foreach (List<Number> row in matrix)
+                    foreach (var x in t)
                     {
-                        foreach (Number column in row)
-                        {
-                            r += column.Value + " ";
-                        }
-                        r += "\n";
+                        s += x.Value + " ";
                     }
 
-                    File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "Output.txt"), r);
-                    UI.Generate.RemoveDigit(45);
-                    var t = UI.Generate.Matrix;
-                    string s = string.Empty;
-                    foreach (List<Number> row in t)
-                    {
-                        foreach (Number column in row)
-                        {
-                            s += column.Value + " ";
-                        }
-                        s += "\n";
-                    }
-                    File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), "InputMatrix.txt"), s);
-                    //MessageBox.Show(r);
-                });
-                await task;
-                if (task.IsCompleted) sw.Stop();
-                MessageBox.Show(sw.Elapsed.ToString());
+                    s += "\n";
+                }
+
+                MessageBox.Show(s);
             });
 
             LoadFromFileCommand = new RelayCommand<StackPanel>((p) => true, (p) =>
@@ -148,18 +128,53 @@ namespace Sodoku.ViewModels
                 });
 
             StartOfflineCommand = new RelayCommand<StackPanel>((p) => true, (p) =>
-              {
+            {
+                UI.Matrix.PanelSudoku = p;
+                if (!Watch.IsRunning)
+                {
+                    Generate gen = new Generate(SelectedLevel);
+                    this.MatrixSudoku = gen.SudokuQues;
+                    UI.Matrix.SetMatrix(p, gen.SudokuQues);
 
-              });
+                    Watch.Start();
+                    Task task = Task.Run(() =>
+                    {
+                        while (Watch.IsRunning)
+                        {
+                            //var temp = UI.Matrix.GetMatrix(p);
+                            //if (!MatrixSudoku.Equals(temp)) MatrixSudoku = temp;
+                            TimeSpan sp = Watch.Elapsed;
+                            Time = $"{sp.Minutes.ToString():00}:{sp.Seconds.ToString():00}";
+                        }
+                    });
+                }
+
+                //UI.Generate.FillMatrix();
+                //UI.Generate.RemoveDigit(50);
+                //List<List<Number>> matrix = UI.Generate.GetResult;
+            });
 
             StartOnlineCommand = new RelayCommand<StackPanel>((p) => true, async (p) =>
-             {
-                 Api api = new Api();
-                 Sudoku su = await api.GetJson(SelectedLevel);
-                 List<List<Number>> matrix = GetMatrixFromString(su.GetQuestion());
-                 //MessageBox.Show(matrix[0].Count.ToString());
-                 UI.Matrix.SetMatrix(p, matrix);
-             });
+            {
+                if (!Watch.IsRunning)
+                {
+                    Api api = new Api();
+                    Sudoku su = await api.GetJson(SelectedLevel);
+                    List<List<Number>> matrix = GetMatrixFromString(su.GetQuestion());
+                    UI.Matrix.SetMatrix(p, matrix);
+
+                    //Start timing
+                    Watch.Start();
+                    Task task = Task.Run(() =>
+                    {
+                        while (Watch.IsRunning)
+                        {
+                            TimeSpan sp = Watch.Elapsed;
+                            Time = $"{sp.Minutes.ToString():00}:{sp.Seconds.ToString():00}";
+                        }
+                    });
+                }
+            });
         }
 
         private List<List<Number>> GetMatrixFromFile(string text)
@@ -184,6 +199,7 @@ namespace Sodoku.ViewModels
 
         private List<List<Number>> GetMatrixFromString(string text)
         {
+            int count = 0;
             List<List<Number>> result = new List<List<Number>>();
             List<Number> num = new List<Number>();
             for (int i = 0; i < text.Length; i++)
@@ -194,10 +210,16 @@ namespace Sodoku.ViewModels
                 if (num.Count.Equals(9))
                 {
                     var templist = new List<Number>(num);
+                    templist.ForEach(x =>
+                    {
+                        if (x.Value.Equals(0)) count++;
+                    });
                     result.Add(templist);
                     num.Clear();
                 }
             }
+
+            MessageBox.Show(count.ToString());
             return result;
         }
     }

@@ -6,9 +6,18 @@ namespace SudokuExtension.Models
     {
         public int Index { get; set; }
         public string Name { get; set; }
+
         public override string ToString()
         {
-            return string.Format("Index {0}\nName {1}", Index, Name);
+            return $"Index {Index}\nName {Name}";
+        }
+
+        public enum LevelConstants
+        {
+            Easy,
+            Medium,
+            Hard,
+            Expert
         }
     }
 }
