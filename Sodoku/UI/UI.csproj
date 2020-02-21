@@ -52,9 +52,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SudokuExtension\SudokuExtension.csproj">
-      <Project>{7f304058-7957-4fa8-a41f-c46eb9fdeca9}</Project>
-      <Name>SudokuExtension</Name>
+    <ProjectReference Include="..\SudokuUtility\SudokuUtility.csproj">
+      <Project>{7DC43798-A25A-4654-BD5F-2B2E2BBE2210}</Project>
+      <Name>SudokuUtility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

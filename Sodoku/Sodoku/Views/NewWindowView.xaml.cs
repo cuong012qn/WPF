@@ -17,11 +17,16 @@ namespace Sodoku.Views
     /// <summary>
     /// Interaction logic for newWindow.xaml
     /// </summary>
-    public partial class newWindow : Window
+    public partial class NewWindow : Window
     {
-        public newWindow()
+        public NewWindow()
         {
             InitializeComponent();
+        }
+
+        private void TextBox_MouseEnter(object sender, MouseEventArgs e)
+        {
+            //(sender as TextBox).BorderBrush = Brushes.White;
         }
     }
 }

@@ -1,21 +1,21 @@
 ﻿
-namespace UI
+
+namespace SudokuUtility
 {
     using SudokuUtility.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Generate
+    public class SudokuGenerate
     {
         private static readonly Random Random = new Random();
         private static readonly object Synclock = new object();
-        private List<List<Number>> Matrix { get; set; }
-        public List<List<Number>> SudokuAnswer { get; private set; }
-        public List<List<Number>> SudokuQues { get; private set; }
+        private List<List<int>> Matrix = new List<List<int>>();
+        public List<List<int>> Question { get; }
+        public List<List<int>> Answer { get; }
 
-
-        public Generate(Level level)
+        public SudokuGenerate(Level level)
         {
             //Easy 40 - 47
             //Medium 47 - 50
@@ -41,28 +41,26 @@ namespace UI
             }
             if (!diff.Equals(0))
             {
-                this.Matrix = CreateMatrix();
-                FillMatrix();
-                RemoveDigit(diff);
+                CreateMatrix(ref this.Matrix);
+                FillMatrix(ref this.Matrix);
+                this.Answer = this.Matrix;
+                RemoveDigit(diff, ref this.Matrix);
+                this.Question = this.Matrix;
             }
         }
 
-        private void RemoveDigit(int countEmptyCell)
+        private void RemoveDigit(int countEmptyCell, ref List<List<int>> matrix)
         {
-
             while (countEmptyCell != 0)
             {
                 int posCol = GetRandomPos(0, 9);
                 int posRow = GetRandomPos(0, 9);
-                if (!Matrix[posRow][posCol].Value.Equals(0))
+                if (!matrix[posRow][posCol].Equals(0))
                 {
-                    Matrix[posRow][posCol].Value = 0;
-                    Matrix[posRow][posCol].CanEdit = true;
+                    matrix[posRow][posCol] = 0;
                     countEmptyCell--;
                 }
             }
-
-            SudokuQues = Matrix;
         }
 
         public static bool IsSudoku(List<List<Number>> inputMatrix)
@@ -101,20 +99,18 @@ namespace UI
         /// Create Matrix 9x9 only 0
         /// </summary>
         /// <returns>Matrix 9x9 only 0</returns>
-        private List<List<Number>> CreateMatrix()
+        private void CreateMatrix(ref List<List<int>> matrix)
         {
-            List<List<Number>> result = new List<List<Number>>();
             for (int i = 0; i < 9; i++)
             {
-                List<Number> temp = new List<Number>();
+                List<int> temp = new List<int>();
                 for (int j = 0; j < 9; j++)
-                    temp.Add(new Number() { Value = 0, CanEdit = false });
-                result.Add(temp);
+                    temp.Add(0);
+                matrix.Add(temp);
             }
-            return result;
         }
 
-        private void FillMatrix()
+        private void FillMatrix(ref List<List<int>> matrix)
         {
             for (int row = 0; row < 9; row++)
             {
@@ -131,17 +127,17 @@ namespace UI
                             {
                                 for (int i = 8; i >= 0; i--)
                                 {
-                                    if (Matrix[row][i].Value.Equals(0))
+                                    if (matrix[row][i].Equals(0))
                                         k = i;
                                 }
                             }
 
                             for (int i = 8; i >= k; i--)
                             {
-                                if (!Matrix[row][i].Value.Equals(0))
+                                if (!matrix[row][i].Equals(0))
                                 {
-                                    lstNumber.Add(Matrix[row][i].Value);
-                                    Matrix[row][i].Value = 0;
+                                    lstNumber.Add(Matrix[row][i]);
+                                    matrix[row][i] = 0;
                                 }
                             }
 
@@ -151,8 +147,8 @@ namespace UI
                                 if (temp.Count > 0)
                                 {
                                     int pos = GetRandomPos(0, temp.Count);
-                                    Matrix[row][i].Value = temp[pos];
-                                    lstNumber.Remove(Matrix[row][i].Value);
+                                    matrix[row][i] = temp[pos];
+                                    lstNumber.Remove(matrix[row][i]);
                                 }
                             }
 
@@ -164,13 +160,11 @@ namespace UI
                     else
                     {
                         int pos = GetRandomPos(0, lstFillCell.Count);
-                        Matrix[row][column].Value = lstFillCell[pos];
-                        lstNumber.Remove(Matrix[row][column].Value);
+                        matrix[row][column] = lstFillCell[pos];
+                        lstNumber.Remove(matrix[row][column]);
                     }
                 }
             }
-
-            SudokuAnswer = Matrix;
         }
 
         /// <summary>
@@ -180,7 +174,7 @@ namespace UI
         /// <returns>True if has 0 in row, otherwise return false</returns>
         private bool IsFill(int posRow)
         {
-            return Matrix[posRow].Any(x => x.Value.Equals(0));
+            return Matrix[posRow].Any(x => x.Equals(0));
         }
 
         private List<int> ListCanFillCell(List<int> inputList, int posRow, int posCol)
@@ -189,8 +183,8 @@ namespace UI
             //Check value on row remove if exists
             for (int i = posRow; i >= 0; i--)
             {
-                if (result.Contains(Matrix[i][posCol].Value))
-                    result.Remove(Matrix[i][posCol].Value);
+                if (result.Contains(Matrix[i][posCol]))
+                    result.Remove(Matrix[i][posCol]);
             }
             //Check value on box remove if exists
             var box = GetsubMatrix(posCol, posRow);
@@ -198,8 +192,8 @@ namespace UI
             {
                 for (int j = 0; j < box.Count; j++)
                 {
-                    if (result.Contains(t[j].Value))
-                        result.Remove(t[j].Value);
+                    if (result.Contains(t[j]))
+                        result.Remove(t[j]);
                 }
             }
             return result;
@@ -225,9 +219,9 @@ namespace UI
         /// <param name="posCol">Position column</param>
         /// <param name="posRow">Position row</param>
         /// <returns>Matrix 3x3</returns>
-        private List<List<Number>> GetsubMatrix(int posCol, int posRow)
+        private List<List<int>> GetsubMatrix(int posCol, int posRow)
         {
-            var result = new List<List<Number>>();
+            var result = new List<List<int>>();
             int col = -1, row = -1;
             for (int i = 2; i <= 8; i += 3)
             {
@@ -238,34 +232,12 @@ namespace UI
 
             for (int i = (row * 3) - 3; i < (row * 3); i++)
             {
-                List<Number> tempList = new List<Number>();
+                List<int> tempList = new List<int>();
                 for (int j = (col * 3) - 3; j < (col * 3); j++)
                 {
                     tempList.Add(Matrix[i][j]);
                 }
                 result.Add(tempList);
-            }
-            return result;
-        }
-
-        private List<List<Number>> FillBox()
-        {
-            List<int> number = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            List<List<Number>> result = new List<List<Number>>();
-            for (int i = 0; i < 3; i++)
-            {
-                List<Number> temp = new List<Number>();
-                for (int j = 0; j < 3; j++)
-                {
-                    int pos = GetRandomPos(0, number.Count);
-                    temp.Add(new Number()
-                    {
-                        Value = number[pos],
-                        CanEdit = true
-                    });
-                    number.RemoveAt(pos);
-                }
-                result.Add(temp);
             }
             return result;
         }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using SudokuUtility;
+using SudokuUtility.Models;
 using Number = UI.Number;
-using SudokuExtension.Models;
-using SudokuExtension;
 using UI;
 
 namespace Sodoku.ViewModels
@@ -154,27 +154,27 @@ namespace Sodoku.ViewModels
                 //List<List<Number>> matrix = UI.Generate.GetResult;
             });
 
-            StartOnlineCommand = new RelayCommand<StackPanel>((p) => true, async (p) =>
-            {
-                if (!Watch.IsRunning)
-                {
-                    Api api = new Api();
-                    Sudoku su = await api.GetJson(SelectedLevel);
-                    List<List<Number>> matrix = GetMatrixFromString(su.GetQuestion());
-                    UI.Matrix.SetMatrix(p, matrix);
+            StartOnlineCommand = new RelayCommand<StackPanel>((p) => true, (p) =>
+           {
+               //if (!Watch.IsRunning)
+               //{
+               //    Api api = new Api();
+               //    Sudoku su = await api.GetJson(SelectedLevel);
+               //    List<List<Number>> matrix = GetMatrixFromString(su.GetQuestion);
+               //    UI.Matrix.SetMatrix(p, matrix);
 
-                    //Start timing
-                    Watch.Start();
-                    Task task = Task.Run(() =>
-                    {
-                        while (Watch.IsRunning)
-                        {
-                            TimeSpan sp = Watch.Elapsed;
-                            Time = $"{sp.Minutes.ToString():00}:{sp.Seconds.ToString():00}";
-                        }
-                    });
-                }
-            });
+               //    //Start timing
+               //    Watch.Start();
+               //    Task task = Task.Run(() =>
+               //    {
+               //        while (Watch.IsRunning)
+               //        {
+               //            TimeSpan sp = Watch.Elapsed;
+               //            Time = $"{sp.Minutes.ToString():00}:{sp.Seconds.ToString():00}";
+               //        }
+               //    });
+               //}
+           });
         }
 
         private List<List<Number>> GetMatrixFromFile(string text)
@@ -223,4 +223,5 @@ namespace Sodoku.ViewModels
             return result;
         }
     }
+
 }
