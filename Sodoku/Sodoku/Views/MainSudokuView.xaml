@@ -8,7 +8,8 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:custom="clr-namespace:Sodoku.CustomControl"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowState="Maximized"
-        Title="newWindow" ResizeMode="CanResizeWithGrip">
+        Title="newWindow" ResizeMode="CanResizeWithGrip"
+        Height="1000" Width="1200">
     <Window.DataContext>
         <local:NewWindowViewModel></local:NewWindowViewModel>
     </Window.DataContext>
@@ -191,8 +192,24 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="0 5 5 5">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Time" FontSize="20" Margin="5"></TextBlock>
-                <TextBox IsReadOnly="True" FontSize="20" Text="{Binding TimerCountDown}" BorderThickness="0"></TextBox>
+                <TextBlock Text="Time" FontSize="20"
+                           Margin="5"
+                           VerticalAlignment="Center"></TextBlock>
+                <TextBox IsReadOnly="True" FontSize="20" Width="50"
+                         Text="{Binding TimerCountDown}"
+                         BorderThickness="0" VerticalAlignment="Center"></TextBox>
+                <Button FontSize="20" x:Name="BtnPause"
+                        Height="50" Margin="5" MaxWidth="125" Width="125"
+                        Command="{Binding PauseButtonCommand}"
+                        IsEnabled="{Binding IsEnableBtnResume}"
+                        CommandParameter="{Binding ElementName=BtnPause}">
+                    <StackPanel Orientation="Horizontal">
+                        <material:PackIcon Kind="Pause" Margin="0 2 0 0"
+                                           VerticalAlignment="Center"></material:PackIcon>
+                        <TextBlock Text="Pause"
+                                   VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <ComboBox material:HintAssist.Hint="Level" Style="{StaticResource MaterialDesignFloatingHintComboBox}"

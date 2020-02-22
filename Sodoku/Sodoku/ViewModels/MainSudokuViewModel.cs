@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using SudokuUtility;
 using Level = SudokuUtility.Models.Level;
 using Sudoku = SudokuUtility.Models.Sudoku;
@@ -23,9 +24,10 @@ namespace Sodoku.ViewModels
         private Level _selectedLevel;
         private object _selectedOption;
         private ObservableCollection<Level> _listLevel;
-        private Boolean _isEnableBtnStart;
+        private bool _isEnableBtnStart;
+        private bool _isEnableBtnResume;
         private string _timerCountDown;
-        private readonly Stopwatch stopwatch;
+        private readonly Stopwatch _stopwatch;
         private Task TaskRunTimer;
         private List<List<int>> _SudokuResult = new List<List<int>>();
         #endregion
@@ -34,6 +36,7 @@ namespace Sodoku.ViewModels
         public ICommand LoadedWindowCommand { get; set; }
         public ICommand StartButtonCommand { get; set; }
         public ICommand CheckButtonCommand { get; set; }
+        public ICommand PauseButtonCommand { get; set; }
         #endregion
 
         #region PublicProperties
@@ -85,12 +88,22 @@ namespace Sodoku.ViewModels
             }
         }
 
+        public bool IsEnableBtnResume
+        {
+            get => _isEnableBtnResume;
+            set
+            {
+                _isEnableBtnResume = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
 
         public NewWindowViewModel()
         {
-            stopwatch = new Stopwatch();
+            _stopwatch = new Stopwatch();
             ListLevel = new ObservableCollection<Level>();
             ListLevel.Add(new Level() { Index = 0, Name = "Easy" });
             ListLevel.Add(new Level() { Index = 1, Name = "Medium" });
@@ -110,9 +123,9 @@ namespace Sodoku.ViewModels
                         {
                             _SudokuResult = su.GetAnswer;
                             WindowSudoku.SetSudoku(su.GetQuestion, p);
-                            if (stopwatch.IsRunning)
+                            if (_stopwatch.IsRunning)
                             {
-                                stopwatch.Reset();
+                                _stopwatch.Reset();
                                 TimerCountDown = string.Empty;
                                 while (TaskRunTimer.Status == TaskStatus.Running)
                                 {
@@ -121,7 +134,7 @@ namespace Sodoku.ViewModels
                                 }
                                 TaskRunTimer = null;
                             }
-                            stopwatch.Start();
+                            _stopwatch.Start();
                         }
                     }
                     else
@@ -130,9 +143,9 @@ namespace Sodoku.ViewModels
                         SudokuGenerate gen = new SudokuGenerate(SelectedLevel);
                         WindowSudoku.SetSudoku(gen.Question, p);
                         _SudokuResult = gen.Answer;
-                        if (stopwatch.IsRunning)
+                        if (_stopwatch.IsRunning)
                         {
-                            stopwatch.Reset();
+                            _stopwatch.Reset();
                             TimerCountDown = string.Empty;
                             while (TaskRunTimer.Status == TaskStatus.Running)
                             {
@@ -141,15 +154,17 @@ namespace Sodoku.ViewModels
                             }
                             TaskRunTimer = null;
                         }
-                        stopwatch.Start();
+                        _stopwatch.Start();
                     }
                     StartTimer();
+                    IsEnableBtnResume = true;
                 }
             });
 
             LoadedWindowCommand = new RelayCommand<object[]>((p) => true, (p) =>
             {
                 IsEnableBtnStart = true;
+                IsEnableBtnResume = false;
                 BindingControl bc = new BindingControl()
                 { GridSudoku = p[0] as StackPanel, GridButton = p[1] as ItemsControl };
                 WindowSudoku.DrawButton(bc.GridButton);
@@ -190,8 +205,8 @@ namespace Sodoku.ViewModels
                            {
                                if (countEmpty.Equals(0))
                                {
-                                   stopwatch.Stop();
-                                   TimeSpan ts = stopwatch.Elapsed;
+                                   _stopwatch.Stop();
+                                   TimeSpan ts = _stopwatch.Elapsed;
                                    MessageBox.Show($"Hoàn thành trong {ts.Minutes.ToString()}:{ts.Seconds.ToString()}");
                                    while (TaskRunTimer.Status == TaskStatus.Running)
                                    {
@@ -205,6 +220,33 @@ namespace Sodoku.ViewModels
                        }));
                 });
                 await task;
+            });
+
+            PauseButtonCommand = new RelayCommand<Button>(p => true, (p) =>
+            {
+                //var child = (StackPanel)p.Content;
+                //((MaterialDesignThemes.Wpf.PackIcon)child.Children[0]).Kind = PackIconKind.Play;
+                if (_stopwatch.IsRunning)
+                {
+                    var child = (StackPanel)p.Content;
+                    ((MaterialDesignThemes.Wpf.PackIcon)child.Children[0]).Kind = PackIconKind.Play;
+                    ((TextBlock)child.Children[1]).Text = "Resume";
+                    _stopwatch.Stop();
+                    while (TaskRunTimer.Status == TaskStatus.Running)
+                    {
+                        TaskRunTimer.Wait();
+                        TaskRunTimer.Dispose();
+                    }
+                    TaskRunTimer = null;
+                }
+                else if (!string.IsNullOrEmpty(TimerCountDown))
+                {
+                    var child = (StackPanel) p.Content;
+                    ((MaterialDesignThemes.Wpf.PackIcon) child.Children[0]).Kind = PackIconKind.Pause;
+                    ((TextBlock) child.Children[1]).Text = "Pause";
+                    _stopwatch.Start();
+                    StartTimer();
+                }
             });
         }
 
@@ -276,9 +318,9 @@ namespace Sodoku.ViewModels
             {
                 TaskRunTimer = Task.Run(() =>
                 {
-                    while (stopwatch.IsRunning)
+                    while (_stopwatch.IsRunning)
                     {
-                        TimeSpan ts = stopwatch.Elapsed;
+                        TimeSpan ts = _stopwatch.Elapsed;
                         TimerCountDown = $"{ts.Minutes.ToString()}:{ts.Seconds.ToString()}";
                     }
                 });
