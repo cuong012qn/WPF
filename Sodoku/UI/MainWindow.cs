@@ -80,25 +80,27 @@
         /// <param name="input">matrix</param>
         public static void SetMatrix(ItemsControl p, List<List<int>> input)
         {
-            Application.Current.Dispatcher.Invoke((Action)(() =>
-            {
-                int countRows = 0;
-                foreach (StackPanel row in (p.Items[0] as StackPanel).Children)
+            if (Application.Current.Dispatcher != null)
+                Application.Current.Dispatcher.Invoke((Action) (() =>
                 {
-                    int countColumns = 0;
-                    foreach (UIElement column in row.Children)
+                    int countRows = 0;
+                    foreach (StackPanel row in ((StackPanel) p.Items[0]).Children)
                     {
-                        if (column is TextBox)
+                        int countColumns = 0;
+                        foreach (UIElement column in row.Children)
                         {
-                            (column as TextBox).Text = input[countRows][countColumns].ToString();
-                            //(column as TextBox).Width = (column as TextBox).ActualHeight;
-                            //(column as TextBox).TextAlignment = TextAlignment.Center;
-                            countColumns++;
+                            if (column is TextBox)
+                            {
+                                (column as TextBox).Text = input[countRows][countColumns].ToString();
+                                //(column as TextBox).Width = (column as TextBox).ActualHeight;
+                                //(column as TextBox).TextAlignment = TextAlignment.Center;
+                                countColumns++;
+                            }
                         }
+
+                        countRows++;
                     }
-                    countRows++;
-                }
-            }));
+                }));
         }
 
         /// <summary>

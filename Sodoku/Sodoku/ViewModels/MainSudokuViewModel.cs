@@ -27,6 +27,7 @@ namespace Sodoku.ViewModels
         private string _timerCountDown;
         private readonly Stopwatch stopwatch;
         private Task TaskRunTimer;
+        private List<List<int>> _SudokuResult = new List<List<int>>();
         #endregion
 
         #region Command
@@ -102,10 +103,12 @@ namespace Sodoku.ViewModels
                 {
                     if (((ComboBoxItem)SelectedOption).Content.Equals("Using API"))
                     {
+                        if (_SudokuResult.Count != 0) _SudokuResult.Clear();
                         Api api = new Api();
                         Sudoku su = await api.GetJson(SelectedLevel);
                         if (su != null)
                         {
+                            _SudokuResult = su.GetAnswer;
                             WindowSudoku.SetSudoku(su.GetQuestion, p);
                             if (stopwatch.IsRunning)
                             {
@@ -123,8 +126,10 @@ namespace Sodoku.ViewModels
                     }
                     else
                     {
+                        if (_SudokuResult.Count != 0) _SudokuResult.Clear();
                         SudokuGenerate gen = new SudokuGenerate(SelectedLevel);
                         WindowSudoku.SetSudoku(gen.Question, p);
+                        _SudokuResult = gen.Answer;
                         if (stopwatch.IsRunning)
                         {
                             stopwatch.Reset();
@@ -160,32 +165,42 @@ namespace Sodoku.ViewModels
                     if (Application.Current.Dispatcher != null)
                         Application.Current.Dispatcher.Invoke((Action)(async () =>
                        {
-                           foreach (StackPanel stackChild in p.Children)
-                           {
-                               foreach (UIElement tb in stackChild.Children)
-                               {
-                                   var textbox = tb as TextBox;
-                                   if (string.IsNullOrEmpty(textbox.Text) && !textbox.IsReadOnly)
-                                   {
-                                       textbox.Background = Brushes.PaleVioletRed;
-                                       countEmpty++;
-                                       await Task.Delay(50);
-                                   }
-                               }
-                           }
+                           #region oldMethod
+                           //foreach (StackPanel stackChild in p.Children)
+                           //{
+                           //    foreach (UIElement tb in stackChild.Children)
+                           //    {
+                           //        var textbox = tb as TextBox;
+                           //        if (string.IsNullOrEmpty(textbox.Text) && !textbox.IsReadOnly)
+                           //        {
+                           //            textbox.Background = Brushes.PaleVioletRed;
+                           //            countEmpty++;
+                           //            await Task.Delay(50);
+                           //        }
+                           //    }
+                           //}
+                           #endregion
+
+                           Task<bool> taskRun = IsValidSudoku(p, _SudokuResult);
+                           bool result = await taskRun;
+
                            IsEnableBtnStart = true;
                            WindowSudoku.GridSudoku = p;
-                           if (countEmpty.Equals(0))
+                           if (result)
                            {
-                               stopwatch.Stop();
-                               TimeSpan ts = stopwatch.Elapsed;
-                               MessageBox.Show($"Hoàn thành trong {ts.Minutes.ToString()}:{ts.Seconds.ToString()}");
-                               while (TaskRunTimer.Status == TaskStatus.Running)
+                               if (countEmpty.Equals(0))
                                {
-                                   TaskRunTimer.Wait();
-                                   TaskRunTimer.Dispose();
+                                   stopwatch.Stop();
+                                   TimeSpan ts = stopwatch.Elapsed;
+                                   MessageBox.Show($"Hoàn thành trong {ts.Minutes.ToString()}:{ts.Seconds.ToString()}");
+                                   while (TaskRunTimer.Status == TaskStatus.Running)
+                                   {
+                                       TaskRunTimer.Wait();
+                                       TaskRunTimer.Dispose();
+                                   }
+
+                                   TaskRunTimer = null;
                                }
-                               TaskRunTimer = null;
                            }
                        }));
                 });
@@ -216,6 +231,43 @@ namespace Sodoku.ViewModels
             }
 
             return sudoku;
+        }
+
+        private async Task<bool> IsValidSudoku(StackPanel sp, List<List<int>> sudokuResult)
+        {
+            if (sp.Children.Count != 9) return false;
+            if (((StackPanel)sp.Children[0]).Children.Count != 9) return false;
+
+            int countEmptyCell = 0, countWrongCell = 0;
+            int posRow = 0, posCol = 0;
+            foreach (StackPanel spchil in sp.Children)
+            {
+                foreach (UIElement txb in spchil.Children)
+                {
+                    var textbox = (TextBox)txb;
+                    if (!textbox.Background.Equals(Brushes.DarkGray) &&
+                        !textbox.IsReadOnly)
+                    {
+                        if (string.IsNullOrEmpty(textbox.Text))
+                        {
+                            textbox.Background = Brushes.PaleVioletRed;
+                            countEmptyCell++;
+                            await Task.Delay(20);
+                        }
+                        else if (!Convert.ToInt32(textbox.Text).Equals(sudokuResult[posRow][posCol]))
+                        {
+                            textbox.Background = Brushes.PaleVioletRed;
+                            countWrongCell++;
+                            await Task.Delay(20);
+                        }
+                    }
+                    posCol++;
+                }
+                posCol = 0;
+                posRow++;
+            }
+
+            return (countEmptyCell.Equals(0) && countWrongCell.Equals(0));
         }
 
         private void StartTimer()

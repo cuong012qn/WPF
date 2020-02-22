@@ -176,30 +176,6 @@ namespace SudokuUtility
             }
         }
 
-        private static bool IsFullvalue()
-        {
-            if (GridSudoku != null)
-            {
-                foreach (StackPanel gridSudokuChild in GridSudoku.Children)
-                {
-                    foreach (UIElement textbox in gridSudokuChild.Children)
-                    {
-                        if (textbox != null)
-                        {
-                            var tb = textbox as TextBox;
-                            if (string.IsNullOrEmpty(tb.Text))
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-            else return false;
-
-            return true;
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();

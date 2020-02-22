@@ -72,14 +72,9 @@
     <Compile Include="CustomControl\CustomConverter.cs" />
     <Compile Include="Models\Number.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\MainScreenViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\NewWindowViewModel.cs" />
-    <Compile Include="Views\MainScreenView.xaml.cs">
-      <DependentUpon>MainScreenView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NewWindowView.xaml.cs">
-      <DependentUpon>NewWindowView.xaml</DependentUpon>
+    <Compile Include="ViewModels\MainSudokuViewModel.cs" />
+    <Compile Include="Views\MainSudokuView.xaml.cs">
+      <DependentUpon>MainSudokuView.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomControl\ControlColor.xaml">
       <SubType>Designer</SubType>
@@ -89,23 +84,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\MainScreenView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NewWindowView.xaml">
+    <Page Include="Views\MainSudokuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
