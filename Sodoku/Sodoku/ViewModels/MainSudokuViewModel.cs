@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
+using Sodoku.Views;
 using SudokuUtility;
 using Level = SudokuUtility.Models.Level;
 using Sudoku = SudokuUtility.Models.Sudoku;
@@ -40,6 +41,7 @@ namespace Sodoku.ViewModels
         #endregion
 
         #region PublicProperties
+
         public ObservableCollection<Level> ListLevel
         {
             get => _listLevel;
@@ -114,6 +116,7 @@ namespace Sodoku.ViewModels
             {
                 if (SelectedLevel != null && SelectedOption != null)
                 {
+                    DialogHost.CloseDialogCommand.Execute(null,p);
                     if (((ComboBoxItem)SelectedOption).Content.Equals("Using API"))
                     {
                         if (_SudokuResult.Count != 0) _SudokuResult.Clear();
@@ -163,6 +166,15 @@ namespace Sodoku.ViewModels
 
             LoadedWindowCommand = new RelayCommand<object[]>((p) => true, (p) =>
             {
+                Task task = Task.Run(() =>
+                {
+                    if (Application.Current.Dispatcher != null)
+                        Application.Current.Dispatcher.Invoke((Action)(async () =>
+                        {
+                            UCLoadingView loading = new UCLoadingView();
+                            await DialogHost.Show(loading, "Sudoku");
+                        }));
+                });
                 IsEnableBtnStart = true;
                 IsEnableBtnResume = false;
                 BindingControl bc = new BindingControl()
@@ -241,9 +253,9 @@ namespace Sodoku.ViewModels
                 }
                 else if (!string.IsNullOrEmpty(TimerCountDown))
                 {
-                    var child = (StackPanel) p.Content;
-                    ((MaterialDesignThemes.Wpf.PackIcon) child.Children[0]).Kind = PackIconKind.Pause;
-                    ((TextBlock) child.Children[1]).Text = "Pause";
+                    var child = (StackPanel)p.Content;
+                    ((MaterialDesignThemes.Wpf.PackIcon)child.Children[0]).Kind = PackIconKind.Pause;
+                    ((TextBlock)child.Children[1]).Text = "Pause";
                     _stopwatch.Start();
                     StartTimer();
                 }

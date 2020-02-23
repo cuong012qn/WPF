@@ -73,8 +73,12 @@
     <Compile Include="Models\Number.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainSudokuViewModel.cs" />
+    <Compile Include="ViewModels\UCLoadingViewModel.cs" />
     <Compile Include="Views\MainSudokuView.xaml.cs">
       <DependentUpon>MainSudokuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UCLoadingView.xaml.cs">
+      <DependentUpon>UCLoadingView.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomControl\ControlColor.xaml">
       <SubType>Designer</SubType>
@@ -89,6 +93,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\MainSudokuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UCLoadingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
