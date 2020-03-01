@@ -107,16 +107,16 @@ namespace Sodoku.ViewModels
         {
             _stopwatch = new Stopwatch();
             ListLevel = new ObservableCollection<Level>();
-            ListLevel.Add(new Level() { Index = 0, Name = "Easy" });
-            ListLevel.Add(new Level() { Index = 1, Name = "Medium" });
-            ListLevel.Add(new Level() { Index = 2, Name = "Hard" });
-            ListLevel.Add(new Level() { Index = 3, Name = "Expert" });
+            ListLevel.Add(new Level() { Name = "Easy" });
+            ListLevel.Add(new Level() { Name = "Medium" });
+            ListLevel.Add(new Level() { Name = "Hard" });
+            ListLevel.Add(new Level() { Name = "Expert" });
 
             StartButtonCommand = new RelayCommand<StackPanel>((p) => true, async (p) =>
             {
                 if (SelectedLevel != null && SelectedOption != null)
                 {
-                    DialogHost.CloseDialogCommand.Execute(null,p);
+                    DialogHost.CloseDialogCommand.Execute(null, p);
                     if (((ComboBoxItem)SelectedOption).Content.Equals("Using API"))
                     {
                         if (_SudokuResult.Count != 0) _SudokuResult.Clear();
@@ -142,8 +142,10 @@ namespace Sodoku.ViewModels
                     }
                     else
                     {
+                        SudokuTable table = new SudokuTable();
+                        table.Solve();
                         if (_SudokuResult.Count != 0) _SudokuResult.Clear();
-                        SudokuGenerate gen = new SudokuGenerate(SelectedLevel);
+                        SudokuGenerate gen = new SudokuGenerate(SelectedLevel,table.ToString());
                         WindowSudoku.SetSudoku(gen.Question, p);
                         _SudokuResult = gen.Answer;
                         if (_stopwatch.IsRunning)
@@ -166,6 +168,7 @@ namespace Sodoku.ViewModels
 
             LoadedWindowCommand = new RelayCommand<object[]>((p) => true, (p) =>
             {
+                //Show loading on DialogHost
                 Task task = Task.Run(() =>
                 {
                     if (Application.Current.Dispatcher != null)
@@ -175,8 +178,12 @@ namespace Sodoku.ViewModels
                             await DialogHost.Show(loading, "Sudoku");
                         }));
                 });
+
+                //Enable button start
                 IsEnableBtnStart = true;
+                //Disable button Resume 
                 IsEnableBtnResume = false;
+                //Convert Object[] (p) to BindingControl
                 BindingControl bc = new BindingControl()
                 { GridSudoku = p[0] as StackPanel, GridButton = p[1] as ItemsControl };
                 WindowSudoku.DrawButton(bc.GridButton);
