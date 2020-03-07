@@ -19,7 +19,7 @@
             Style="{StaticResource MaterialDesignCircularProgressBar}"
             Value="0"
             IsIndeterminate="True" />
-        <Button Grid.Row="2" Margin="5" Command="{Binding CloseButtonCommand}"
+        <Button Grid.Row="2" Margin="5" Command="{Binding CloseButtonCommand}" IsEnabled="True"
             Style="{StaticResource MaterialDesignFlatButton}"
             ToolTip="Cancel">
             CANCEL

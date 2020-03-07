@@ -25,7 +25,6 @@ namespace SudokuUtility
 
 	}
 
-
 	/// <summary>
 	/// Representation of a Sudoku board
 	/// </summary>
@@ -77,13 +76,7 @@ namespace SudokuUtility
 
 		#region Methods...
 
-		/// <summary>
-		/// Sets a value for a cell.
-		/// </summary>
-		/// <param name="row">Row for the cell (zero-based).</param>
-		/// <param name="col">Col for the cell (zero-based).</param>
-		/// <param name="value">Value for the cell.</param>
-		public void SetValue(int row, int col, int value)
+		private void SetValue(int row, int col, int value)
 		{
 			this[row, col].SetValue(value);
 
@@ -97,6 +90,7 @@ namespace SudokuUtility
 				this[rowS, colS].RemovePossibility(value); // remove possible value for the square
 			}
 		}
+
 
 		/// <summary>
 		/// Solve a Sudoku cell.

@@ -23,7 +23,7 @@ namespace SudokuUtility
         private static readonly object Synclock = new object();
         private List<List<int>> Matrix = new List<List<int>>();
         public List<List<int>> Question { get; }
-        public List<List<int>> Answer { get; }
+        public List<List<int>> Answer { get; set; }
 
         public SudokuGenerate(Level level)
         {
@@ -74,7 +74,7 @@ namespace SudokuUtility
                 Task task = Task.Run(() => { FillMatrix(ref this.Matrix); });
                 task.Wait();
                 this.Answer = this.Matrix;
-                RemoveDigit(diff, ref this.Matrix);
+                RemoveDigit(diff, this.Matrix);
                 this.Question = this.Matrix;
                 //MessageBox.Show(countTry.ToString());
             }
@@ -84,13 +84,22 @@ namespace SudokuUtility
         {
             if (!string.IsNullOrEmpty(Solved))
             {
-                this.Matrix = StringToMatrix(Solved);
+                this.Matrix = new List<List<int>>(StringToMatrix(Solved));
                 int diff = level.Difficult();
                 if (diff != 0)
                 {
-                    this.Answer = this.Matrix;
-                    RemoveDigit(diff, ref this.Matrix);
-                    this.Question = this.Matrix;
+                    this.Answer = new List<List<int>>();
+                    for (int i = 0; i < 9; i++)
+                    {
+                        List<int> row = new List<int>();
+                        for (int j = 0; j < 9; j++)
+                        {
+                            row.Add(this.Matrix[i][j]);
+                        }
+                        this.Answer.Add(row);
+                    }
+                    RemoveDigit(diff, this.Matrix);
+                    this.Question = new List<List<int>>(this.Matrix);
                 }
 
             }
@@ -130,7 +139,7 @@ namespace SudokuUtility
             else return null;
         }
 
-        private void RemoveDigit(int countEmptyCell, ref List<List<int>> matrix)
+        private void RemoveDigit(int countEmptyCell, List<List<int>> matrix)
         {
             while (countEmptyCell != 0)
             {
@@ -498,7 +507,6 @@ namespace SudokuUtility
             }
             MessageBox.Show($"{s}\n{IsSudoku(matrix).ToString()}");
         }
-
 
         //Remove duplicate number in row
         private void RemoveDuplicateNum(int posRow)

@@ -1,19 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.IO;
-using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Security.Policy;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using MaterialDesignThemes.Wpf;
+﻿using MaterialDesignThemes.Wpf;
 using Sodoku.Views;
 using SudokuUtility;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using Level = SudokuUtility.Models.Level;
 using Sudoku = SudokuUtility.Models.Sudoku;
 
@@ -102,7 +99,6 @@ namespace Sodoku.ViewModels
 
         #endregion
 
-
         public NewWindowViewModel()
         {
             _stopwatch = new Stopwatch();
@@ -116,7 +112,6 @@ namespace Sodoku.ViewModels
             {
                 if (SelectedLevel != null && SelectedOption != null)
                 {
-                    DialogHost.CloseDialogCommand.Execute(null, p);
                     if (((ComboBoxItem)SelectedOption).Content.Equals("Using API"))
                     {
                         if (_SudokuResult.Count != 0) _SudokuResult.Clear();
@@ -143,11 +138,29 @@ namespace Sodoku.ViewModels
                     else
                     {
                         SudokuTable table = new SudokuTable();
-                        table.Solve();
+                        bool IsDone = true;
+                        while (IsDone)
+                        {
+                            try
+                            {
+                                table.Solve();
+                                IsDone = false;
+                            }
+                            catch
+                            {
+
+                            }
+                            if (IsDone)
+                            {
+                                table = null;
+                                table = new SudokuTable();
+                                table.Solve();
+                            }
+                        }
                         if (_SudokuResult.Count != 0) _SudokuResult.Clear();
-                        SudokuGenerate gen = new SudokuGenerate(SelectedLevel,table.ToString());
+                        SudokuGenerate gen = new SudokuGenerate(SelectedLevel, table.ToString());
                         WindowSudoku.SetSudoku(gen.Question, p);
-                        _SudokuResult = gen.Answer;
+                        _SudokuResult = new List<List<int>>(gen.Answer);
                         if (_stopwatch.IsRunning)
                         {
                             _stopwatch.Reset();
@@ -163,6 +176,9 @@ namespace Sodoku.ViewModels
                     }
                     StartTimer();
                     IsEnableBtnResume = true;
+                    //MessageBox.Show(((p.Children[0] as StackPanel).Children[0] as TextBox).Background.ToString());
+
+                    DialogHost.CloseDialogCommand.Execute(null, p);
                 }
             });
 
@@ -215,7 +231,7 @@ namespace Sodoku.ViewModels
                            //}
                            #endregion
 
-                           Task<bool> taskRun = IsValidSudoku(p, _SudokuResult);
+                           Task<bool> taskRun = WindowSudoku.IsValidSudoku(p, _SudokuResult);
                            bool result = await taskRun;
 
                            IsEnableBtnStart = true;
@@ -241,14 +257,22 @@ namespace Sodoku.ViewModels
                 await task;
             });
 
-            PauseButtonCommand = new RelayCommand<Button>(p => true, (p) =>
+            PauseButtonCommand = new RelayCommand<object[]>(p => true, (p) =>
             {
-                //var child = (StackPanel)p.Content;
-                //((MaterialDesignThemes.Wpf.PackIcon)child.Children[0]).Kind = PackIconKind.Play;
+                Button ButtonPause = (Button)p[0];
+                StackPanel spGridSudoku = (StackPanel)p[1];
                 if (_stopwatch.IsRunning)
                 {
-                    var child = (StackPanel)p.Content;
-                    ((MaterialDesignThemes.Wpf.PackIcon)child.Children[0]).Kind = PackIconKind.Play;
+                    Task task = Task.Run(() =>
+                    {
+                        Application.Current.Dispatcher.Invoke((Action)(async () =>
+                        {
+                            UCLoadingView loading = new UCLoadingView();
+                            await DialogHost.Show(loading, "Sudoku");
+                        }));
+                    });
+                    var child = (StackPanel)ButtonPause.Content;
+                    ((PackIcon)child.Children[0]).Kind = PackIconKind.Play;
                     ((TextBlock)child.Children[1]).Text = "Resume";
                     _stopwatch.Stop();
                     while (TaskRunTimer.Status == TaskStatus.Running)
@@ -260,9 +284,10 @@ namespace Sodoku.ViewModels
                 }
                 else if (!string.IsNullOrEmpty(TimerCountDown))
                 {
-                    var child = (StackPanel)p.Content;
+                    var child = (StackPanel)ButtonPause.Content;
                     ((MaterialDesignThemes.Wpf.PackIcon)child.Children[0]).Kind = PackIconKind.Pause;
                     ((TextBlock)child.Children[1]).Text = "Pause";
+                    DialogHost.CloseDialogCommand.Execute(null, spGridSudoku);
                     _stopwatch.Start();
                     StartTimer();
                 }
@@ -292,43 +317,6 @@ namespace Sodoku.ViewModels
             }
 
             return sudoku;
-        }
-
-        private async Task<bool> IsValidSudoku(StackPanel sp, List<List<int>> sudokuResult)
-        {
-            if (sp.Children.Count != 9) return false;
-            if (((StackPanel)sp.Children[0]).Children.Count != 9) return false;
-
-            int countEmptyCell = 0, countWrongCell = 0;
-            int posRow = 0, posCol = 0;
-            foreach (StackPanel spchil in sp.Children)
-            {
-                foreach (UIElement txb in spchil.Children)
-                {
-                    var textbox = (TextBox)txb;
-                    if (!textbox.Background.Equals(Brushes.DarkGray) &&
-                        !textbox.IsReadOnly)
-                    {
-                        if (string.IsNullOrEmpty(textbox.Text))
-                        {
-                            textbox.Background = Brushes.PaleVioletRed;
-                            countEmptyCell++;
-                            await Task.Delay(20);
-                        }
-                        else if (!Convert.ToInt32(textbox.Text).Equals(sudokuResult[posRow][posCol]))
-                        {
-                            textbox.Background = Brushes.PaleVioletRed;
-                            countWrongCell++;
-                            await Task.Delay(20);
-                        }
-                    }
-                    posCol++;
-                }
-                posCol = 0;
-                posRow++;
-            }
-
-            return (countEmptyCell.Equals(0) && countWrongCell.Equals(0));
         }
 
         private void StartTimer()
